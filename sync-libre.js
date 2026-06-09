@@ -1,4 +1,5 @@
 const https = require('https');
+const zlib = require('zlib');
 const fs = require('fs');
 
 const EMAIL = process.env.LIBRE_EMAIL;
@@ -21,18 +22,43 @@ function request(hostname, path, method, extraHeaders, body) {
       'version': '4.16.0',
       'product': 'llu.ios',
       'Accept': 'application/json',
-      'Accept-Encoding': 'gzip, deflate, br',
+      'Accept-Encoding': 'gzip, deflate',
       'Connection': 'keep-alive',
       ...extraHeaders,
       ...(payload ? { 'Content-Length': Buffer.byteLength(payload) } : {})
     };
 
     const req = https.request({ hostname, path, method, headers }, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
+      const chunks = [];
+      res.on('data', chunk => chunks.push(chunk));
       res.on('end', () => {
-        try { resolve({ status: res.statusCode, data: JSON.parse(data) }); }
-        catch(e) { resolve({ status: res.statusCode, raw: data.substring(0,500) }); }
+        const buffer = Buffer.concat(chunks);
+        const encoding = res.headers['content-encoding'];
+        
+        const decompress = (buf) => {
+          try { return JSON.parse(buf.toString()); }
+          catch(e) { return null; }
+        };
+
+        if (encoding === 'gzip') {
+          zlib.gunzip(buffer, (err, decoded) => {
+            if (err) return resolve({ status: res.statusCode, raw: buffer.toString().substring(0, 200) });
+            const parsed = decompress(decoded);
+            if (parsed) resolve({ status: res.statusCode, data: parsed });
+            else resolve({ status: res.statusCode, raw: decoded.toString().substring(0, 500) });
+          });
+        } else if (encoding === 'deflate') {
+          zlib.inflate(buffer, (err, decoded) => {
+            if (err) return resolve({ status: res.statusCode, raw: buffer.toString().substring(0, 200) });
+            const parsed = decompress(decoded);
+            if (parsed) resolve({ status: res.statusCode, data: parsed });
+            else resolve({ status: res.statusCode, raw: decoded.toString().substring(0, 500) });
+          });
+        } else {
+          const parsed = decompress(buffer);
+          if (parsed) resolve({ status: res.statusCode, data: parsed });
+          else resolve({ status: res.statusCode, raw: buffer.toString().substring(0, 500) });
+        }
       });
     });
     req.on('error', reject);
@@ -69,27 +95,25 @@ async function login() {
 }
 
 async function getConnections(token) {
-  const extraHeaders = {
+  const res = await request(host(), '/llu/connections', 'GET', {
     'Authorization': `Bearer ${token}`,
     'account-id': accountId,
-  };
-  const res = await request(host(), '/llu/connections', 'GET', extraHeaders);
-  console.log('Risposta connections status:', res.status);
-  console.log('Risposta connections raw:', JSON.stringify(res.data || res.raw || '').substring(0, 300));
+  });
+  console.log('Connections status:', res.status);
+  console.log('Connections raw:', JSON.stringify(res.data || res.raw || '').substring(0, 300));
 
   const data = res.data;
   if (Array.isArray(data?.data)) return data.data;
   if (Array.isArray(data)) return data;
-  if (data?.data && typeof data.data === 'object' && !Array.isArray(data.data)) return [data.data];
+  if (data?.data && typeof data.data === 'object') return [data.data];
   return [];
 }
 
 async function getGraph(token, patientId) {
-  const extraHeaders = {
+  const res = await request(host(), `/llu/connections/${patientId}/graph`, 'GET', {
     'Authorization': `Bearer ${token}`,
     'account-id': accountId,
-  };
-  const res = await request(host(), `/llu/connections/${patientId}/graph`, 'GET', extraHeaders);
+  });
   console.log('Graph status:', res.status);
 
   const data = res.data;
@@ -109,7 +133,6 @@ async function main() {
       const patient = connections[0];
       const patientId = patient.patientId || patient.id || patient.PatientId;
       console.log(`👤 Paziente: ${patient.firstName || patientId}`);
-      console.log(`🆔 PatientId: ${patientId}`);
       graphData = await getGraph(token, patientId);
     } else {
       console.log('⚠️ Nessuna connessione trovata');
