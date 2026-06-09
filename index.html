@@ -492,10 +492,6 @@ async function analyzePhoto(event) {
   resultEl.innerHTML = '<div class="ai-loading">🤖 Claude sta analizzando il piatto…</div>';
 
   try {
-    if (!apiKey) {
-      resultEl.innerHTML = '<div class="ai-error">❌ Inserisci prima la chiave API Claude in fondo alla pagina (sezione 🔑).</div>';
-      return;
-    }
     const resp = await fetch('/.netlify/functions/analyze', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
