@@ -98,8 +98,11 @@ async function login() {
 }
 
 async function getConnections(token) {
+  // Prova con account-id come UUID senza trattini
+  const accountIdClean = accountId.replace(/-/g, '');
   const res = await request(host(), '/llu/connections', 'GET', {
     'Authorization': `Bearer ${token}`,
+    'account-id': accountIdClean,
   });
   console.log('Connections status:', res.status);
   if (res.status !== 200) {
@@ -114,8 +117,10 @@ async function getConnections(token) {
 }
 
 async function getGraph(token, patientId) {
+  const accountIdClean = accountId.replace(/-/g, '');
   const res = await request(host(), `/llu/connections/${patientId}/graph`, 'GET', {
     'Authorization': `Bearer ${token}`,
+    'account-id': accountIdClean,
   });
   console.log('Graph status:', res.status);
 
