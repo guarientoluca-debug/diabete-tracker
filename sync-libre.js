@@ -10,6 +10,7 @@ if (!EMAIL || !PASSWORD) {
 }
 
 let REGION = '';
+let accountId = '';
 
 function request(hostname, path, method, extraHeaders, body) {
   return new Promise((resolve, reject) => {
@@ -20,6 +21,8 @@ function request(hostname, path, method, extraHeaders, body) {
       'version': '4.16.0',
       'product': 'llu.ios',
       'Accept': 'application/json',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Connection': 'keep-alive',
       ...extraHeaders,
       ...(payload ? { 'Content-Length': Buffer.byteLength(payload) } : {})
     };
@@ -56,6 +59,9 @@ async function login() {
   }
 
   const token = res.data?.data?.authTicket?.token;
+  accountId = res.data?.data?.user?.id || '';
+  console.log('AccountId:', accountId ? '✅ trovato' : '❌ non trovato');
+
   if (token) { console.log('✅ Login OK'); return token; }
 
   console.log('Risposta login:', JSON.stringify(res.data || res.raw || '').substring(0, 500));
@@ -63,24 +69,30 @@ async function login() {
 }
 
 async function getConnections(token) {
-  const res = await request(host(), '/llu/connections', 'GET', { 'Authorization': `Bearer ${token}` });
+  const extraHeaders = {
+    'Authorization': `Bearer ${token}`,
+    'account-id': accountId,
+  };
+  const res = await request(host(), '/llu/connections', 'GET', extraHeaders);
   console.log('Risposta connections status:', res.status);
-  console.log('Risposta connections raw:', JSON.stringify(res.data || res.raw || '').substring(0, 500));
-  
-  // Prova diverse strutture possibili
+  console.log('Risposta connections raw:', JSON.stringify(res.data || res.raw || '').substring(0, 300));
+
   const data = res.data;
   if (Array.isArray(data?.data)) return data.data;
   if (Array.isArray(data)) return data;
-  if (data?.data && typeof data.data === 'object') return [data.data];
+  if (data?.data && typeof data.data === 'object' && !Array.isArray(data.data)) return [data.data];
   return [];
 }
 
 async function getGraph(token, patientId) {
-  const res = await request(host(), `/llu/connections/${patientId}/graph`, 'GET', { 'Authorization': `Bearer ${token}` });
+  const extraHeaders = {
+    'Authorization': `Bearer ${token}`,
+    'account-id': accountId,
+  };
+  const res = await request(host(), `/llu/connections/${patientId}/graph`, 'GET', extraHeaders);
   console.log('Graph status:', res.status);
-  
+
   const data = res.data;
-  // Prova diverse strutture
   const graphData = data?.data?.graphData || data?.graphData || data?.data || [];
   console.log('📊 Letture ricevute:', Array.isArray(graphData) ? graphData.length : 'non array');
   return Array.isArray(graphData) ? graphData : [];
