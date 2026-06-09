@@ -5,6 +5,9 @@ on:
     - cron: '0 */4 * * *'  # ogni 4 ore
   workflow_dispatch:         # esecuzione manuale
 
+permissions:
+  contents: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
