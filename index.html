@@ -120,6 +120,24 @@
 
   <!-- INSULINA -->
   <div id="sec-insulina" style="display:none">
+    <!-- Correzione iperglicemia -->
+    <div class="card" style="border:2px solid #fecaca;background:#fff">
+      <div class="card-title" style="color:#ef4444">🩸 Correzione iperglicemia</div>
+      <div class="row" style="margin-bottom:8px">
+        <div style="flex:1">
+          <div style="font-size:10px;font-weight:700;color:#ef4444;margin-bottom:3px">📊 Glicemia attuale</div>
+          <input type="number" id="corr-glucose" placeholder="mg/dL" oninput="calcCorrection()" style="margin-bottom:0"/>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:10px;font-weight:700;color:#3b82f6;margin-bottom:3px">⚡ Dose che pensi di fare</div>
+          <input type="number" id="corr-dose" placeholder="Unità" style="margin-bottom:0"/>
+        </div>
+      </div>
+      <div id="corr-calc-result"></div>
+      <button class="btn" onclick="askCorrectionAI()" style="width:100%;background:#ef4444;color:#fff;margin-bottom:0">🤖 Chiedi all'AI</button>
+      <div id="corr-ai-result"></div>
+    </div>
+    <!-- Nuova dose -->
     <div class="card">
       <div class="card-title">💉 Nuova dose insulina</div>
       <div class="toggle">
@@ -382,6 +400,84 @@ function saveInsulinConfig() {
   msg.style.color = '#16a34a';
   setTimeout(() => { msg.textContent = ''; }, 3000);
   calcInsulinDose();
+}
+
+function calcCorrection() {
+  const glucose = parseFloat(document.getElementById('corr-glucose')?.value) || 0;
+  const el = document.getElementById('corr-calc-result');
+  if (!el || !glucose || !insulinConfig.isf || !insulinConfig.targetGlucose) { if(el) el.innerHTML=''; return; }
+
+  const diff = glucose - insulinConfig.targetGlucose;
+  if (diff <= 0) {
+    el.innerHTML = `<div style="background:#f0fdf4;border-radius:10px;padding:10px;margin-bottom:8px;font-size:13px;color:#16a34a;font-weight:600">✅ Glicemia nella norma — nessuna correzione necessaria</div>`;
+    return;
+  }
+  const doseSuggerita = Math.round((diff / insulinConfig.isf) * 2) / 2;
+  const color = diff > 100 ? '#ef4444' : '#f59e0b';
+  el.innerHTML = `
+  <div style="background:#fef2f2;border-radius:10px;padding:10px;margin-bottom:8px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:11px;color:#94a3b8">Correzione suggerita</div>
+        <div style="font-size:24px;font-weight:800;color:${color}">${doseSuggerita}U ⚡</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:11px;color:#94a3b8">Eccesso</div>
+        <div style="font-size:18px;font-weight:700;color:${color}">+${diff} mg/dL</div>
+      </div>
+    </div>
+    <div style="font-size:10px;color:#64748b;margin-top:4px">(${glucose} - ${insulinConfig.targetGlucose}) ÷ ${insulinConfig.isf} mg/dL per U</div>
+  </div>`;
+}
+
+async function askCorrectionAI() {
+  const glucose = parseFloat(document.getElementById('corr-glucose')?.value) || 0;
+  const doseIpotizzata = parseFloat(document.getElementById('corr-dose')?.value) || 0;
+  const resultEl = document.getElementById('corr-ai-result');
+
+  if (!glucose) { resultEl.innerHTML = '<div style="font-size:12px;color:#f59e0b;padding:8px">⚠️ Inserisci la glicemia attuale</div>'; return; }
+  if (!insulinConfig.isf || !insulinConfig.targetGlucose) { resultEl.innerHTML = '<div style="font-size:12px;color:#f59e0b;padding:8px">⚠️ Configura prima target e ISF nelle impostazioni</div>'; return; }
+  if (!doseIpotizzata) { resultEl.innerHTML = '<div style="font-size:12px;color:#f59e0b;padding:8px">⚠️ Inserisci la dose che pensi di fare</div>'; return; }
+
+  resultEl.innerHTML = '<div class="ai-loading">🤖 Calcolo correzione in corso…</div>';
+
+  try {
+    const resp = await fetch('/.netlify/functions/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        analysisType: 'correction',
+        data: { glicemiaAttuale: glucose, doseIpotizzata, config: insulinConfig }
+      })
+    });
+
+    const parsed = await resp.json();
+    if (!parsed.dose_consigliata) throw new Error(parsed.error || 'Risposta non valida');
+
+    const valColors = { giusta:'#22c55e', leggermente_bassa:'#f59e0b', troppo_bassa:'#ef4444', leggermente_alta:'#f59e0b', troppo_alta:'#ef4444' };
+    const valEmoji = { giusta:'✅', leggermente_bassa:'⚠️', troppo_bassa:'❌', leggermente_alta:'⚠️', troppo_alta:'❌' };
+    const valLabel = { giusta:'Dose giusta', leggermente_bassa:'Leggermente bassa', troppo_bassa:'Troppo bassa', leggermente_alta:'Leggermente alta', troppo_alta:'Troppo alta' };
+    const bgCol = parsed.valutazione === 'giusta' ? '#f0fdf4' : parsed.valutazione?.includes('alta') ? '#fff7ed' : '#fef2f2';
+    const borderCol = parsed.valutazione === 'giusta' ? '#bbf7d0' : parsed.valutazione?.includes('alta') ? '#fed7aa' : '#fecaca';
+    const col = valColors[parsed.valutazione] || '#64748b';
+
+    resultEl.innerHTML = `
+    <div style="background:${bgCol};border:2px solid ${borderCol};border-radius:13px;padding:13px;margin-top:8px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="flex:1">
+          <div style="font-size:11px;font-weight:700;color:${col};text-transform:uppercase;letter-spacing:1px">${valEmoji[parsed.valutazione]||'💬'} ${valLabel[parsed.valutazione]||''}</div>
+          <div style="font-size:13px;font-weight:600;color:#1e293b;margin-top:3px">${parsed.messaggio}</div>
+        </div>
+        <div style="text-align:center;background:#fff;border-radius:10px;padding:8px 12px;min-width:70px">
+          <div style="font-size:10px;color:#94a3b8;font-weight:700">CONSIGLIATA</div>
+          <div style="font-size:24px;font-weight:800;color:${col}">${parsed.dose_consigliata}U</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:#64748b;background:rgba(255,255,255,0.6);border-radius:8px;padding:8px">📐 ${parsed.dettaglio}</div>
+    </div>`;
+  } catch(err) {
+    resultEl.innerHTML = `<div class="ai-error">❌ ${err.message}</div>`;
+  }
 }
 
 async function askMealAssistant() {

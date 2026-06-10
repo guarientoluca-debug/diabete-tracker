@@ -111,6 +111,30 @@ Rispondi SOLO con JSON valido senza markdown:
 {"dose_consigliata": ${Math.round(doseSuggerita * 2) / 2}, "valutazione": "giusta|leggermente_bassa|troppo_bassa|leggermente_alta|troppo_alta", "messaggio": "messaggio breve e diretto in italiano (max 2 righe)", "dettaglio": "spiegazione del calcolo in italiano semplice"}`
       }];
 
+    // ── Modalità 4: correzione iperglicemia ─────────────────────────────────
+    } else if (body.analysisType === 'correction') {
+      const { glicemiaAttuale, doseIpotizzata, config } = body.data;
+      const diff = glicemiaAttuale - config.targetGlucose;
+      const doseSuggerita = Math.max(0, Math.round((diff / config.isf) * 2) / 2);
+
+      messages = [{
+        role: 'user',
+        content: `Sei un assistente diabetologo che parla in italiano semplice e diretto.
+
+Il paziente ha un'iperglicemia e vuole correggerla con insulina rapida:
+- Glicemia attuale: ${glicemiaAttuale} mg/dL
+- Glicemia target: ${config.targetGlucose} mg/dL
+- Eccesso: ${diff} mg/dL sopra il target
+- ISF: 1U abbassa la glicemia di ${config.isf} mg/dL
+- Dose di correzione calcolata: ${doseSuggerita}U
+- Dose che il paziente pensa di fare: ${doseIpotizzata}U
+
+Valuta se la dose ipotizzata è appropriata per questa correzione. Non sta mangiando, è solo una correzione glicemica.
+
+Rispondi SOLO con JSON valido senza markdown:
+{"dose_consigliata": ${doseSuggerita}, "valutazione": "giusta|leggermente_bassa|troppo_bassa|leggermente_alta|troppo_alta", "messaggio": "messaggio breve e diretto in italiano (max 2 righe)", "dettaglio": "spiegazione del calcolo in italiano semplice"}`
+      }];
+
     } else {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'Parametri mancanti: imageBase64 o analysisType richiesto' }) };
     }
