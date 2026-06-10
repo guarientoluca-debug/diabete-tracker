@@ -560,11 +560,12 @@ function toggleAdvanced() {
 }
 
 function prefillPrescribedDose() {
-  const timing = document.getElementById('carb-timing')?.value;
+  const timingEl = document.getElementById('carb-timing');
   const doseEl = document.getElementById('carb-planned-dose');
-  if (!doseEl || !insulinConfig.dosePerPasto) return;
+  if (!timingEl || !doseEl || !insulinConfig.dosePerPasto) return;
+  const timing = timingEl.value;
   const dose = insulinConfig.dosePerPasto[timing] || 0;
-  if (dose > 0) doseEl.value = dose;
+  if (dose > 0 && !doseEl.value) doseEl.value = dose;
   calcInsulinDose();
 }
 
@@ -654,7 +655,7 @@ function renderSection(s) {
   if (s==='insulina')     renderInsulin();
   if (s==='sensore')      renderSensor();
   if (s==='libre')        { renderLibre(); fetchLibreFromGitHub(); }
-  if (s==='carboidrati')  { renderCarb(); prefillPrescribedDose(); }
+  if (s==='carboidrati')  { renderCarb(); setTimeout(prefillPrescribedDose, 50); }
   if (s==='correlazione') renderCorrelation();
   if (s==='giornaliero')  renderDaily();
 }
