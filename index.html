@@ -238,6 +238,66 @@
       <div class="empty-icon">🍽️</div>
       <div style="font-weight:700;color:#64748b">Nessun pasto registrato</div>
     </div>
+
+    <!-- Configurazione dosi -->
+    <div style="border-top:1px solid #e2e8f0;padding-top:16px;margin-top:8px">
+      <div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;margin-bottom:9px;text-align:center">💉 Dosi prescritte dal diabetologo</div>
+      <div style="background:#fff;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.07);overflow:hidden;margin-bottom:10px">
+        <div style="display:grid;grid-template-columns:auto 1fr;align-items:center;padding:10px 14px;border-bottom:1px solid #f1f5f9;gap:10px">
+          <div style="font-size:13px;font-weight:700;color:#1e293b;min-width:130px">🌅 Colazione</div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <input type="number" id="cfg-dose-colazione" placeholder="U" style="margin-bottom:0;width:70px;flex:none;text-align:center;font-weight:700"/>
+            <span style="font-size:12px;color:#94a3b8">U ⚡ rapida</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:auto 1fr;align-items:center;padding:10px 14px;border-bottom:1px solid #f1f5f9;gap:10px">
+          <div style="font-size:13px;font-weight:700;color:#1e293b;min-width:130px">☀️ Pranzo</div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <input type="number" id="cfg-dose-pranzo" placeholder="U" style="margin-bottom:0;width:70px;flex:none;text-align:center;font-weight:700"/>
+            <span style="font-size:12px;color:#94a3b8">U ⚡ rapida</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:auto 1fr;align-items:center;padding:10px 14px;border-bottom:1px solid #f1f5f9;gap:10px">
+          <div style="font-size:13px;font-weight:700;color:#1e293b;min-width:130px">🌆 Cena</div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <input type="number" id="cfg-dose-cena" placeholder="U" style="margin-bottom:0;width:70px;flex:none;text-align:center;font-weight:700"/>
+            <span style="font-size:12px;color:#94a3b8">U ⚡ rapida</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:auto 1fr;align-items:center;padding:10px 14px;gap:10px">
+          <div style="font-size:13px;font-weight:700;color:#1e293b;min-width:130px">💤 Prima di dormire</div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <input type="number" id="cfg-dose-dormire" placeholder="U" style="margin-bottom:0;width:70px;flex:none;text-align:center;font-weight:700"/>
+            <span style="font-size:12px;color:#94a3b8">U 🌙 lenta</span>
+          </div>
+        </div>
+      </div>
+      <button class="btn" onclick="saveInsulinConfig()" style="width:100%;background:#6366f1;color:#fff;font-size:12px;margin-bottom:8px">Salva configurazione</button>
+      <div style="margin-bottom:8px">
+        <button onclick="toggleAdvanced()" style="background:none;border:none;font-size:11px;font-weight:700;color:#94a3b8;cursor:pointer;width:100%;text-align:center;padding:4px">
+          ⚙️ <span id="advanced-label">Mostra impostazioni avanzate</span>
+        </button>
+      </div>
+      <div id="advanced-settings" style="display:none">
+        <div class="config-grid">
+          <div>
+            <div style="font-size:10px;font-weight:700;color:#f59e0b;margin-bottom:3px">🌾 RAPPORTO (g carbo per 1U)</div>
+            <input type="number" id="cfg-ratio" placeholder="es. 10" style="margin-bottom:0"/>
+          </div>
+          <div>
+            <div style="font-size:10px;font-weight:700;color:#22c55e;margin-bottom:3px">🎯 GLICEMIA TARGET (mg/dL)</div>
+            <input type="number" id="cfg-target" placeholder="es. 120" style="margin-bottom:0"/>
+          </div>
+        </div>
+        <div style="margin-top:8px">
+          <div style="font-size:10px;font-weight:700;color:#ef4444;margin-bottom:3px">📉 ISF — 1U abbassa di X mg/dL</div>
+          <input type="number" id="cfg-isf" placeholder="es. 50"/>
+        </div>
+        <button class="btn" onclick="calcRatioWithAI()" style="width:100%;background:#0ea5e9;color:#fff;font-size:12px;margin-bottom:8px">🤖 Calcola rapporto con AI</button>
+      </div>
+      <div id="cfg-msg" style="font-size:11px;text-align:center;color:#94a3b8;margin-top:4px;min-height:14px"></div>
+      <div id="cfg-ai-result"></div>
+    </div>
   </div>
 
   <!-- CORRELAZIONE -->
@@ -256,79 +316,6 @@
     <div id="daily-content"></div>
   </div>
 
-  <!-- API KEY -->
-  <div style="margin-top:26px;border-top:1px solid #e2e8f0;padding-top:16px">
-    <div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;margin-bottom:9px;text-align:center">🔑 Chiave API Claude (per foto)</div>
-    <div style="display:flex;gap:8px;margin-bottom:4px">
-      <input type="password" id="api-key-input" placeholder="sk-ant-api03-..." style="flex:1;font-size:12px;margin-bottom:0"/>
-      <button class="btn" onclick="saveApiKey()" style="background:#1e293b;color:#fff;font-size:12px">Salva</button>
-    </div>
-    <div id="api-key-msg" style="font-size:11px;color:#94a3b8;margin-bottom:14px;min-height:14px"></div>
-  </div>
-  <!-- CONFIGURAZIONE INSULINA -->
-  <div style="border-top:1px solid #e2e8f0;padding-top:16px;margin-top:16px">
-    <div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;margin-bottom:9px;text-align:center">💉 Dosi prescritte dal diabetologo</div>
-
-    <!-- Tabella dosi per pasto -->
-    <div style="background:#fff;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.07);overflow:hidden;margin-bottom:10px">
-      <div style="display:grid;grid-template-columns:auto 1fr;align-items:center;padding:10px 14px;border-bottom:1px solid #f1f5f9;gap:10px">
-        <div style="font-size:13px;font-weight:700;color:#1e293b;min-width:130px">🌅 Colazione</div>
-        <div style="display:flex;align-items:center;gap:6px">
-          <input type="number" id="cfg-dose-colazione" placeholder="U" style="margin-bottom:0;width:70px;flex:none;text-align:center;font-weight:700"/>
-          <span style="font-size:12px;color:#94a3b8">U ⚡ rapida</span>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:auto 1fr;align-items:center;padding:10px 14px;border-bottom:1px solid #f1f5f9;gap:10px">
-        <div style="font-size:13px;font-weight:700;color:#1e293b;min-width:130px">☀️ Pranzo</div>
-        <div style="display:flex;align-items:center;gap:6px">
-          <input type="number" id="cfg-dose-pranzo" placeholder="U" style="margin-bottom:0;width:70px;flex:none;text-align:center;font-weight:700"/>
-          <span style="font-size:12px;color:#94a3b8">U ⚡ rapida</span>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:auto 1fr;align-items:center;padding:10px 14px;border-bottom:1px solid #f1f5f9;gap:10px">
-        <div style="font-size:13px;font-weight:700;color:#1e293b;min-width:130px">🌆 Cena</div>
-        <div style="display:flex;align-items:center;gap:6px">
-          <input type="number" id="cfg-dose-cena" placeholder="U" style="margin-bottom:0;width:70px;flex:none;text-align:center;font-weight:700"/>
-          <span style="font-size:12px;color:#94a3b8">U ⚡ rapida</span>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:auto 1fr;align-items:center;padding:10px 14px;gap:10px">
-        <div style="font-size:13px;font-weight:700;color:#1e293b;min-width:130px">💤 Prima di dormire</div>
-        <div style="display:flex;align-items:center;gap:6px">
-          <input type="number" id="cfg-dose-dormire" placeholder="U" style="margin-bottom:0;width:70px;flex:none;text-align:center;font-weight:700"/>
-          <span style="font-size:12px;color:#94a3b8">U 🌙 lenta</span>
-        </div>
-      </div>
-    </div>
-
-    <button class="btn" onclick="saveInsulinConfig()" style="width:100%;background:#6366f1;color:#fff;font-size:12px;margin-bottom:8px">Salva configurazione</button>
-    <!-- Parametri calcolo (avanzati, collassabili) -->
-    <div style="margin-bottom:8px">
-      <button onclick="toggleAdvanced()" style="background:none;border:none;font-size:11px;font-weight:700;color:#94a3b8;cursor:pointer;width:100%;text-align:center;padding:4px">
-        ⚙️ <span id="advanced-label">Mostra impostazioni avanzate</span>
-      </button>
-    </div>
-    <div id="advanced-settings" style="display:none">
-      <div class="config-grid">
-        <div>
-          <div style="font-size:10px;font-weight:700;color:#f59e0b;margin-bottom:3px">🌾 RAPPORTO (g carbo per 1U)</div>
-          <input type="number" id="cfg-ratio" placeholder="es. 10" style="margin-bottom:0"/>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:700;color:#22c55e;margin-bottom:3px">🎯 GLICEMIA TARGET (mg/dL)</div>
-          <input type="number" id="cfg-target" placeholder="es. 120" style="margin-bottom:0"/>
-        </div>
-      </div>
-      <div style="margin-top:8px">
-        <div style="font-size:10px;font-weight:700;color:#ef4444;margin-bottom:3px">📉 ISF — 1U abbassa di X mg/dL</div>
-        <input type="number" id="cfg-isf" placeholder="es. 50"/>
-      </div>
-      <button class="btn" onclick="calcRatioWithAI()" style="width:100%;background:#0ea5e9;color:#fff;font-size:12px;margin-bottom:8px">🤖 Calcola rapporto con AI</button>
-    </div>
-    <button class="btn" onclick="saveInsulinConfig()" style="width:100%;background:#6366f1;color:#fff;font-size:12px;margin-top:6px">Salva configurazione</button>
-    <div id="cfg-msg" style="font-size:11px;text-align:center;color:#94a3b8;margin-top:6px;min-height:14px"></div>
-    <div id="cfg-ai-result"></div>
-  </div>
   <!-- BACKUP -->
   <div style="border-top:1px solid #e2e8f0;padding-top:16px">
     <div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;margin-bottom:9px;text-align:center">💾 Backup dati</div>
