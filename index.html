@@ -1269,9 +1269,11 @@ async function analyzePatterns() {
     });
 
     const text = await resp.text();
+    console.log('Pattern AI raw response:', text.substring(0, 300));
     const clean = text.replace(/```json\s*/gi, '').replace(/```\s*/gi, '').trim();
-    const parsed = JSON.parse(clean);
-    if (!parsed.sintesi) throw new Error(parsed.error || 'Risposta non valida');
+    let parsed;
+    try { parsed = JSON.parse(clean); } catch(e) { throw new Error('JSON non valido: ' + clean.substring(0, 100)); }
+    if (!parsed.sintesi) throw new Error(parsed.error || 'Campo sintesi mancante');
 
     const sevColors = { positivo: '#22c55e', attenzione: '#f59e0b', critico: '#ef4444' };
     const sevBg = { positivo: '#f0fdf4', attenzione: '#fffbeb', critico: '#fef2f2' };
