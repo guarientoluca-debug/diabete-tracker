@@ -1,6 +1,4 @@
 {
-  "version": 3,
-  "exportedAt": "2026-06-11T07:02:50.267Z",
   "readings": [
     {
       "id": 1780822382872,
@@ -630,9 +628,23 @@
       ],
       "note": "",
       "date": "2026-06-10T17:10:11.687Z"
+    },
+    {
+      "id": 1781161810073,
+      "carbs": 50,
+      "timing": "colazione",
+      "foods": [
+        {
+          "name": "Muesli croccante al cioccolato biologico Crownfield",
+          "grams": 45,
+          "carbsFromAI": 32
+        }
+      ],
+      "note": "",
+      "date": "2026-06-11T07:10:10.073Z"
     }
   ],
-  "libre": [
+  "libreData": [
     {
       "id": 1781000500000,
       "value": 71,
@@ -708,5 +720,17 @@
       "value": 184,
       "date": "2026-06-10T22:51:56.000Z"
     }
-  ]
+  ],
+  "insulinConfig": {
+    "dosePerPasto": {
+      "colazione": 6,
+      "pranzo": 9,
+      "cena": 10,
+      "dormire": 28
+    },
+    "carbRatio": 5.2,
+    "targetGlucose": 120,
+    "isf": 50
+  },
+  "savedAt": "2026-06-11T10:33:14.414Z"
 }
