@@ -689,7 +689,8 @@ async function calcRatioWithAI() {
 
 function applyAIRatio(ratio) {
   insulinConfig.carbRatio = ratio;
-  document.getElementById('cfg-ratio').value = ratio;
+  const ratioEl = document.getElementById('cfg-ratio');
+  if (ratioEl) ratioEl.value = ratio;
   localStorage.setItem('dt-ins-config', JSON.stringify(insulinConfig));
   document.getElementById('cfg-msg').textContent = `✅ Rapporto ${ratio}g/U applicato!`;
   document.getElementById('cfg-msg').style.color = '#16a34a';
@@ -2061,9 +2062,9 @@ if (insulinConfig.dosePerPasto?.colazione) document.getElementById('cfg-dose-col
 if (insulinConfig.dosePerPasto?.pranzo)    document.getElementById('cfg-dose-pranzo').value    = insulinConfig.dosePerPasto.pranzo;
 if (insulinConfig.dosePerPasto?.cena)      document.getElementById('cfg-dose-cena').value       = insulinConfig.dosePerPasto.cena;
 if (insulinConfig.dosePerPasto?.dormire)   document.getElementById('cfg-dose-dormire').value    = insulinConfig.dosePerPasto.dormire;
-if (insulinConfig.carbRatio)     document.getElementById('cfg-ratio').value    = insulinConfig.carbRatio;
-if (insulinConfig.targetGlucose) document.getElementById('cfg-target').value   = insulinConfig.targetGlucose;
-if (insulinConfig.isf)           document.getElementById('cfg-isf').value      = insulinConfig.isf;
+if (insulinConfig.carbRatio)     { const el = document.getElementById('cfg-ratio');    if (el) el.value = insulinConfig.carbRatio; }
+if (insulinConfig.targetGlucose) { const el = document.getElementById('cfg-target');   if (el) el.value = insulinConfig.targetGlucose; }
+if (insulinConfig.isf)           { const el = document.getElementById('cfg-isf');      if (el) el.value = insulinConfig.isf; }
 showSection('glicemia');
 // Carica config adattiva in background
 setTimeout(loadAdaptiveConfig, 2000);
