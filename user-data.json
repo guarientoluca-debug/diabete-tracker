@@ -209,6 +209,13 @@
       "date": "2026-06-12T08:40:31.582Z",
       "timing": "post-pasto",
       "note": ""
+    },
+    {
+      "id": 1781263243604,
+      "value": 112,
+      "date": "2026-06-12T11:20:43.604Z",
+      "timing": "pre-pasto",
+      "note": ""
     }
   ],
   "insulin": [
@@ -763,6 +770,20 @@
       ],
       "note": "",
       "date": "2026-06-12T05:36:22.374Z"
+    },
+    {
+      "id": 1781253732066,
+      "carbs": 11,
+      "timing": "spuntino",
+      "foods": [
+        {
+          "name": "Succo e polpa di albicocca Solevita",
+          "grams": 200,
+          "carbsFromAI": 22
+        }
+      ],
+      "note": "",
+      "date": "2026-06-12T08:42:12.066Z"
     }
   ],
   "libreData": [
@@ -898,5 +919,5 @@
     "targetGlucose": 120,
     "isf": 50
   },
-  "savedAt": "2026-06-12T08:40:37.746Z"
+  "savedAt": "2026-06-12T11:20:50.281Z"
 }
