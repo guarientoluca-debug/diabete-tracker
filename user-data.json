@@ -784,6 +784,25 @@
       ],
       "note": "",
       "date": "2026-06-12T08:42:12.066Z"
+    },
+    {
+      "id": 1781263296904,
+      "carbs": 51,
+      "timing": "pranzo",
+      "foods": [
+        {
+          "name": "Cotoletta impanata (presumibilmente di pollo o vitello)",
+          "grams": 180,
+          "carbsFromAI": 14.4
+        },
+        {
+          "name": "Patate bollite con prezzemolo",
+          "grams": 220,
+          "carbsFromAI": 37.4
+        }
+      ],
+      "note": "",
+      "date": "2026-06-12T11:21:36.904Z"
     }
   ],
   "libreData": [
@@ -919,5 +938,5 @@
     "targetGlucose": 120,
     "isf": 50
   },
-  "savedAt": "2026-06-12T11:20:50.281Z"
+  "savedAt": "2026-06-12T11:56:04.510Z"
 }
