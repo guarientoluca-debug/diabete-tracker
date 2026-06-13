@@ -596,17 +596,8 @@ const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
 let currentUser = null;
 
 async function initAuth() {
-  // Gestisce il callback OAuth: Supabase v2 mette i token nell'URL hash o come query params
-  const hash = window.location.hash;
-  const search = window.location.search;
-  if (hash.includes('access_token') || search.includes('access_token') || hash.includes('code=') || search.includes('code=')) {
-    // Aspetta che Supabase elabori il token dall'URL
-    await new Promise(r => setTimeout(r, 800));
-    // Pulisce l'URL senza ricaricare la pagina
-    window.history.replaceState({}, document.title, window.location.pathname);
-  }
-
-  const { data: { session } } = await sbClient.auth.getSession();
+  // Gestisce il callback OAuth dall'URL hash
+  const { data: { session }, error } = await sbClient.auth.getSession();
   if (session?.user) {
     currentUser = session.user;
     showApp();
@@ -615,11 +606,9 @@ async function initAuth() {
   }
 
   sbClient.auth.onAuthStateChange((event, session) => {
-    if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session?.user) {
+    if (event === 'SIGNED_IN' && session?.user) {
       currentUser = session.user;
-      if (document.getElementById('login-screen').style.display !== 'none') {
-        showApp();
-      }
+      showApp();
     } else if (event === 'SIGNED_OUT') {
       currentUser = null;
       showLoginScreen();
@@ -674,8 +663,8 @@ async function loginWithGoogle() {
   await sbClient.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: 'https://luminous-pegasus-e51837.netlify.app',
-      skipBrowserRedirect: false
+      redirectTo: 'https://luminous-pegasus-e51837.netlify.app/auth/callback',
+      queryParams: { access_type: 'offline', prompt: 'consent' }
     }
   });
 }
