@@ -228,8 +228,8 @@
       <input type="email" class="login-input" id="login-email" placeholder="Email"/>
       <input type="password" class="login-input" id="login-password" placeholder="Password"/>
       <button class="login-btn" onclick="loginWithEmail()">Accedi</button>
-      <div style="text-align:center;margin-top:4px">
-        <button onclick="showForgotPassword()" style="background:none;border:none;color:#6366f1;font-size:12px;cursor:pointer;text-decoration:underline">Password dimenticata?</button>
+      <div style="text-align:center;margin:-4px 0 8px">
+        <a href="#" onclick="showForgotPassword();return false;" style="font-size:13px;color:#6366f1;text-decoration:none">Password dimenticata?</a>
       </div>
       <div class="login-divider">oppure</div>
       <button class="login-btn-google" onclick="loginWithGoogle()">
@@ -251,21 +251,24 @@
       </button>
       <div class="login-msg" id="reg-msg"></div>
     </div>
-  </div>
-</div>
 
-<!-- SCHERMATA RESET PASSWORD -->
-<div id="reset-screen" style="display:none;position:fixed;inset:0;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:none;align-items:center;justify-content:center;z-index:1000">
-  <div class="login-card">
-    <div class="login-logo">
-      <div style="font-size:40px">🔑</div>
-      <h1>Nuova password</h1>
-      <p>Inserisci la tua nuova password</p>
+    <div id="forgot-form" style="display:none">
+      <div style="font-size:13px;color:#64748b;margin-bottom:12px;text-align:center">Inserisci la tua email per ricevere il link di reset</div>
+      <input type="email" class="login-input" id="forgot-email" placeholder="Email"/>
+      <button class="login-btn" onclick="sendPasswordReset()">Invia link di reset</button>
+      <div style="text-align:center;margin-top:8px">
+        <a href="#" onclick="showLoginTab();return false;" style="font-size:13px;color:#6366f1;text-decoration:none">← Torna al login</a>
+      </div>
+      <div class="login-msg" id="forgot-msg"></div>
     </div>
-    <input type="password" class="login-input" id="new-password" placeholder="Nuova password (min 6 caratteri)"/>
-    <input type="password" class="login-input" id="new-password-confirm" placeholder="Conferma nuova password"/>
-    <button class="login-btn" onclick="confirmPasswordReset()">Salva nuova password</button>
-    <div class="login-msg" id="reset-msg"></div>
+
+    <div id="reset-password-form" style="display:none">
+      <div style="font-size:13px;color:#64748b;margin-bottom:12px;text-align:center">Scegli la tua nuova password</div>
+      <input type="password" class="login-input" id="reset-new-password" placeholder="Nuova password (min 6 caratteri)"/>
+      <input type="password" class="login-input" id="reset-confirm-password" placeholder="Conferma nuova password"/>
+      <button class="login-btn" onclick="confirmPasswordReset()">Salva nuova password</button>
+      <div class="login-msg" id="reset-msg"></div>
+    </div>
   </div>
 </div>
 
@@ -615,13 +618,11 @@ const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
 let currentUser = null;
 
 async function initAuth() {
+  // Ascolta prima i cambiamenti di stato (cattura il callback OAuth e recovery)
   sbClient.auth.onAuthStateChange((event, session) => {
     if (event === 'PASSWORD_RECOVERY') {
-      // Mostra schermata reset password
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('main-app').style.display = 'none';
-      document.getElementById('reset-screen').style.display = 'flex';
-      window.history.replaceState({}, document.title, '/');
+      // Mostra form reset password
+      showResetPasswordForm();
       return;
     }
     if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session?.user) {
@@ -629,7 +630,6 @@ async function initAuth() {
       if (window.location.hash || window.location.search.includes('code=')) {
         window.history.replaceState({}, document.title, '/');
       }
-      document.getElementById('reset-screen').style.display = 'none';
       if (document.getElementById('main-app').style.display === 'none' || !document.getElementById('main-app').style.display) {
         showApp();
       }
@@ -649,32 +649,49 @@ async function initAuth() {
 }
 
 function showForgotPassword() {
-  const email = document.getElementById('login-email').value.trim();
-  const msg = document.getElementById('login-msg');
-  if (!email) { msg.textContent = 'Inserisci prima la tua email'; msg.className = 'login-msg error'; return; }
-  sbClient.auth.resetPasswordForEmail(email, {
+  document.getElementById('login-form').style.display = 'none';
+  document.getElementById('register-form').style.display = 'none';
+  document.getElementById('forgot-form').style.display = '';
+  document.getElementById('reset-password-form').style.display = 'none';
+}
+
+function showLoginTab() {
+  document.getElementById('login-form').style.display = '';
+  document.getElementById('register-form').style.display = 'none';
+  document.getElementById('forgot-form').style.display = 'none';
+  document.getElementById('reset-password-form').style.display = 'none';
+}
+
+function showResetPasswordForm() {
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('main-app').style.display = 'none';
+  document.getElementById('login-form').style.display = 'none';
+  document.getElementById('register-form').style.display = 'none';
+  document.getElementById('forgot-form').style.display = 'none';
+  document.getElementById('reset-password-form').style.display = '';
+}
+
+async function sendPasswordReset() {
+  const email = document.getElementById('forgot-email').value.trim();
+  const msg = document.getElementById('forgot-msg');
+  if (!email) { msg.textContent = 'Inserisci la tua email'; msg.className = 'login-msg error'; return; }
+  msg.textContent = 'Invio in corso...'; msg.className = 'login-msg';
+  const { error } = await sbClient.auth.resetPasswordForEmail(email, {
     redirectTo: 'https://luminous-pegasus-e51837.netlify.app'
-  }).then(({error}) => {
-    if (error) { msg.textContent = error.message; msg.className = 'login-msg error'; }
-    else { msg.textContent = '✅ Email inviata! Controlla la casella.'; msg.className = 'login-msg success'; }
   });
+  if (error) { msg.textContent = error.message; msg.className = 'login-msg error'; }
+  else { msg.textContent = '✅ Email inviata! Controlla la tua casella.'; msg.className = 'login-msg success'; }
 }
 
 async function confirmPasswordReset() {
-  const pwd = document.getElementById('new-password').value;
-  const pwd2 = document.getElementById('new-password-confirm').value;
+  const pwd = document.getElementById('reset-new-password').value;
+  const pwd2 = document.getElementById('reset-confirm-password').value;
   const msg = document.getElementById('reset-msg');
-  if (pwd.length < 6) { msg.textContent = 'Password minimo 6 caratteri'; msg.className = 'login-msg error'; return; }
+  if (!pwd || pwd.length < 6) { msg.textContent = 'Password minimo 6 caratteri'; msg.className = 'login-msg error'; return; }
   if (pwd !== pwd2) { msg.textContent = 'Le password non coincidono'; msg.className = 'login-msg error'; return; }
   const { error } = await sbClient.auth.updateUser({ password: pwd });
   if (error) { msg.textContent = error.message; msg.className = 'login-msg error'; }
-  else {
-    msg.textContent = '✅ Password aggiornata!'; msg.className = 'login-msg success';
-    setTimeout(() => {
-      document.getElementById('reset-screen').style.display = 'none';
-      showApp();
-    }, 1500);
-  }
+  else { msg.textContent = '✅ Password aggiornata!'; msg.className = 'login-msg success'; setTimeout(() => showApp(), 1500); }
 }
 
 function showLoginScreen() {
