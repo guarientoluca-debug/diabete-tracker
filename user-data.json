@@ -251,6 +251,13 @@
       "date": "2026-06-13T11:31:22.876Z",
       "timing": "pre-pasto",
       "note": ""
+    },
+    {
+      "id": 1781365926928,
+      "value": 122,
+      "date": "2026-06-13T15:52:06.928+00:00",
+      "timing": "digiuno",
+      "note": ""
     }
   ],
   "insulin": [
@@ -1075,52 +1082,27 @@
       "id": 1781304732000,
       "value": 95,
       "date": "2026-06-12T22:52:12.000Z"
-    },
-    {
-      "id": 1781313733000,
-      "value": 201,
-      "date": "2026-06-13T01:22:13.000Z"
-    },
-    {
-      "id": 1781322734000,
-      "value": 196,
-      "date": "2026-06-13T03:52:14.000Z"
-    },
-    {
-      "id": 1781331735000,
-      "value": 181,
-      "date": "2026-06-13T06:22:15.000Z"
-    },
-    {
-      "id": 1781340737000,
-      "value": 157,
-      "date": "2026-06-13T08:52:17.000Z"
-    },
-    {
-      "id": 1781349737000,
-      "value": 85,
-      "date": "2026-06-13T11:22:17.000Z"
     }
   ],
   "insulinConfig": {
     "dosePerPasto": {
-      "colazione": 6,
-      "pranzo": 9,
-      "cena": 10,
-      "dormire": 28
+      "colazione": 0,
+      "pranzo": 0,
+      "cena": 0,
+      "dormire": 0
     },
     "carbRatio": 7.5,
-    "targetGlucose": 120,
-    "isf": 50,
     "carbRatioPerPasto": {
       "colazione": 6,
       "pranzo": 9.5,
       "cena": 6
     },
+    "targetGlucose": 120,
+    "isf": 50,
     "adaptiveUpdate": {
       "updatedAt": "2026-06-12T13:54:16.736Z",
       "campioni": 8
     }
   },
-  "savedAt": "2026-06-13T15:52:04.255Z"
+  "savedAt": "2026-06-13T16:14:33.820Z"
 }
