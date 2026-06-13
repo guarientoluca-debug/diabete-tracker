@@ -1,446 +1,446 @@
 {
   "readings": [
     {
-      "id": 1780822382872,
-      "value": 110,
-      "date": "2026-06-07T08:53:02.872Z",
-      "timing": "digiuno",
-      "note": ""
-    },
-    {
-      "id": 1780826659192,
-      "value": 47,
-      "date": "2026-06-07T10:04:19.192Z",
-      "timing": "digiuno",
-      "note": ""
-    },
-    {
-      "id": 1780828799499,
-      "value": 94,
-      "date": "2026-06-07T10:39:59.499Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1780834997959,
-      "value": 108,
-      "date": "2026-06-07T12:23:17.959Z",
-      "timing": "post-pasto",
-      "note": ""
-    },
-    {
-      "id": 1780852230295,
-      "value": 190,
-      "date": "2026-06-07T17:10:30.295Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1780866422235,
-      "value": 85,
-      "date": "2026-06-07T21:07:02.235Z",
-      "timing": "sera",
-      "note": ""
-    },
-    {
-      "id": 1780897230868,
-      "value": 92,
-      "date": "2026-06-08T05:40:30.868Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1780917956852,
-      "value": 96,
-      "date": "2026-06-08T11:25:56.852Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1780943460989,
-      "value": 160,
-      "date": "2026-06-08T18:31:00.989Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1780949107437,
-      "value": 48,
-      "date": "2026-06-08T20:05:07.437Z",
-      "timing": "post-pasto",
-      "note": ""
-    },
-    {
-      "id": 1780955164318,
-      "value": 69,
-      "date": "2026-06-08T21:46:04.318Z",
-      "timing": "digiuno",
-      "note": ""
-    },
-    {
-      "id": 1780983384432,
-      "value": 66,
-      "date": "2026-06-09T05:36:24.432Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1780993022345,
-      "value": 58,
-      "date": "2026-06-09T08:17:02.345Z",
-      "timing": "post-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781004154423,
-      "value": 117,
-      "date": "2026-06-09T11:22:34.423Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781012041283,
-      "value": 53,
-      "date": "2026-06-09T13:34:01.283Z",
-      "timing": "post-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781041541878,
-      "value": 235,
-      "date": "2026-06-09T21:45:41.878Z",
-      "timing": "post-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781069928322,
-      "value": 202,
-      "date": "2026-06-10T05:38:48.322Z",
-      "timing": "digiuno",
-      "note": ""
-    },
-    {
-      "id": 1781069955361,
-      "value": 202,
-      "date": "2026-06-10T05:39:15.361Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781079764519,
-      "value": 137,
-      "date": "2026-06-10T08:22:44.519Z",
-      "timing": "post-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781090747072,
-      "value": 138,
-      "date": "2026-06-10T11:25:47.072Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781102116457,
-      "value": 242,
-      "date": "2026-06-10T14:35:16.457Z",
-      "timing": "post-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781111028928,
-      "value": 227,
-      "date": "2026-06-10T17:03:48.928Z",
-      "timing": "digiuno",
-      "note": ""
-    },
-    {
-      "id": 1781127059445,
-      "value": 235,
-      "date": "2026-06-10T21:30:59.445Z",
-      "timing": "sera",
-      "note": ""
-    },
-    {
-      "id": 1781158167489,
-      "value": 180,
-      "date": "2026-06-11T06:09:27.489Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781175564196,
-      "value": 146,
-      "date": "2026-06-11T10:59:24.196Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781202797272,
-      "value": 230,
-      "date": "2026-06-11T18:33:17.272Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781212911080,
-      "value": 90,
-      "date": "2026-06-11T21:21:51.080Z",
-      "timing": "post-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781242389424,
-      "value": 72,
-      "date": "2026-06-12T05:33:09.424Z",
-      "timing": "digiuno",
-      "note": ""
-    },
-    {
-      "id": 1781242400570,
-      "value": 72,
-      "date": "2026-06-12T05:33:20.570Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781253631582,
-      "value": 66,
-      "date": "2026-06-12T08:40:31.582Z",
-      "timing": "post-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781263243604,
-      "value": 112,
-      "date": "2026-06-12T11:20:43.604Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781288887793,
-      "value": 166,
-      "date": "2026-06-12T18:28:07.793Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781304376892,
-      "value": 200,
-      "date": "2026-06-12T22:46:16.892Z",
-      "timing": "digiuno",
-      "note": ""
-    },
-    {
-      "id": 1781331815415,
-      "value": 170,
-      "date": "2026-06-13T06:23:35.415Z",
-      "timing": "pre-pasto",
-      "note": ""
-    },
-    {
-      "id": 1781346938438,
-      "value": 58,
-      "date": "2026-06-13T10:35:38.438Z",
+      "id": 1781365926928,
+      "value": 122,
+      "date": "2026-06-13T15:52:06.928+00:00",
       "timing": "digiuno",
       "note": ""
     },
     {
       "id": 1781350282876,
       "value": 157,
-      "date": "2026-06-13T11:31:22.876Z",
+      "date": "2026-06-13T11:31:22.876+00:00",
       "timing": "pre-pasto",
       "note": ""
     },
     {
-      "id": 1781365926928,
-      "value": 122,
-      "date": "2026-06-13T15:52:06.928+00:00",
+      "id": 1781346938438,
+      "value": 58,
+      "date": "2026-06-13T10:35:38.438+00:00",
+      "timing": "digiuno",
+      "note": ""
+    },
+    {
+      "id": 1781331815415,
+      "value": 170,
+      "date": "2026-06-13T06:23:35.415+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781304376892,
+      "value": 200,
+      "date": "2026-06-12T22:46:16.892+00:00",
+      "timing": "digiuno",
+      "note": ""
+    },
+    {
+      "id": 1781288887793,
+      "value": 166,
+      "date": "2026-06-12T18:28:07.793+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781263243604,
+      "value": 112,
+      "date": "2026-06-12T11:20:43.604+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781253631582,
+      "value": 66,
+      "date": "2026-06-12T08:40:31.582+00:00",
+      "timing": "post-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781242400570,
+      "value": 72,
+      "date": "2026-06-12T05:33:20.57+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781242389424,
+      "value": 72,
+      "date": "2026-06-12T05:33:09.424+00:00",
+      "timing": "digiuno",
+      "note": ""
+    },
+    {
+      "id": 1781212911080,
+      "value": 90,
+      "date": "2026-06-11T21:21:51.08+00:00",
+      "timing": "post-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781202797272,
+      "value": 230,
+      "date": "2026-06-11T18:33:17.272+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781175564196,
+      "value": 146,
+      "date": "2026-06-11T10:59:24.196+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781158167489,
+      "value": 180,
+      "date": "2026-06-11T06:09:27.489+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781127059445,
+      "value": 235,
+      "date": "2026-06-10T21:30:59.445+00:00",
+      "timing": "sera",
+      "note": ""
+    },
+    {
+      "id": 1781111028928,
+      "value": 227,
+      "date": "2026-06-10T17:03:48.928+00:00",
+      "timing": "digiuno",
+      "note": ""
+    },
+    {
+      "id": 1781102116457,
+      "value": 242,
+      "date": "2026-06-10T14:35:16.457+00:00",
+      "timing": "post-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781090747072,
+      "value": 138,
+      "date": "2026-06-10T11:25:47.072+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781079764519,
+      "value": 137,
+      "date": "2026-06-10T08:22:44.519+00:00",
+      "timing": "post-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781069955361,
+      "value": 202,
+      "date": "2026-06-10T05:39:15.361+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781069928322,
+      "value": 202,
+      "date": "2026-06-10T05:38:48.322+00:00",
+      "timing": "digiuno",
+      "note": ""
+    },
+    {
+      "id": 1781041541878,
+      "value": 235,
+      "date": "2026-06-09T21:45:41.878+00:00",
+      "timing": "post-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781012041283,
+      "value": 53,
+      "date": "2026-06-09T13:34:01.283+00:00",
+      "timing": "post-pasto",
+      "note": ""
+    },
+    {
+      "id": 1781004154423,
+      "value": 117,
+      "date": "2026-06-09T11:22:34.423+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1780993022345,
+      "value": 58,
+      "date": "2026-06-09T08:17:02.345+00:00",
+      "timing": "post-pasto",
+      "note": ""
+    },
+    {
+      "id": 1780983384432,
+      "value": 66,
+      "date": "2026-06-09T05:36:24.432+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1780955164318,
+      "value": 69,
+      "date": "2026-06-08T21:46:04.318+00:00",
+      "timing": "digiuno",
+      "note": ""
+    },
+    {
+      "id": 1780949107437,
+      "value": 48,
+      "date": "2026-06-08T20:05:07.437+00:00",
+      "timing": "post-pasto",
+      "note": ""
+    },
+    {
+      "id": 1780943460989,
+      "value": 160,
+      "date": "2026-06-08T18:31:00.989+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1780917956852,
+      "value": 96,
+      "date": "2026-06-08T11:25:56.852+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1780897230868,
+      "value": 92,
+      "date": "2026-06-08T05:40:30.868+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1780866422235,
+      "value": 85,
+      "date": "2026-06-07T21:07:02.235+00:00",
+      "timing": "sera",
+      "note": ""
+    },
+    {
+      "id": 1780852230295,
+      "value": 190,
+      "date": "2026-06-07T17:10:30.295+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1780834997959,
+      "value": 108,
+      "date": "2026-06-07T12:23:17.959+00:00",
+      "timing": "post-pasto",
+      "note": ""
+    },
+    {
+      "id": 1780828799499,
+      "value": 94,
+      "date": "2026-06-07T10:39:59.499+00:00",
+      "timing": "pre-pasto",
+      "note": ""
+    },
+    {
+      "id": 1780826659192,
+      "value": 47,
+      "date": "2026-06-07T10:04:19.192+00:00",
+      "timing": "digiuno",
+      "note": ""
+    },
+    {
+      "id": 1780822382872,
+      "value": 110,
+      "date": "2026-06-07T08:53:02.872+00:00",
       "timing": "digiuno",
       "note": ""
     }
   ],
   "insulin": [
     {
-      "id": 1780828810512,
-      "units": 10,
+      "id": 1781350326090,
+      "units": 17,
       "type": "rapida",
-      "date": "2026-06-07T10:40:10.512Z",
-      "note": ""
-    },
-    {
-      "id": 1780852322470,
-      "units": 12,
-      "type": "rapida",
-      "date": "2026-06-07T17:12:02.470Z",
-      "note": ""
-    },
-    {
-      "id": 1780866432710,
-      "units": 29,
-      "type": "lenta",
-      "date": "2026-06-07T21:07:12.710Z",
-      "note": ""
-    },
-    {
-      "id": 1780897370165,
-      "units": 6,
-      "type": "rapida",
-      "date": "2026-06-08T05:42:50.165Z",
-      "note": ""
-    },
-    {
-      "id": 1780917977801,
-      "units": 10,
-      "type": "rapida",
-      "date": "2026-06-08T11:26:17.801Z",
-      "note": ""
-    },
-    {
-      "id": 1780943742647,
-      "units": 13,
-      "type": "rapida",
-      "date": "2026-06-08T18:35:42.647Z",
-      "note": ""
-    },
-    {
-      "id": 1780955239083,
-      "units": 28,
-      "type": "lenta",
-      "date": "2026-06-08T21:47:19.083Z",
-      "note": ""
-    },
-    {
-      "id": 1780984049917,
-      "units": 6,
-      "type": "rapida",
-      "date": "2026-06-09T05:47:29.917Z",
-      "note": ""
-    },
-    {
-      "id": 1781004230968,
-      "units": 11,
-      "type": "rapida",
-      "date": "2026-06-09T11:23:50.968Z",
-      "note": ""
-    },
-    {
-      "id": 1781041587048,
-      "units": 3,
-      "type": "rapida",
-      "date": "2026-06-09T21:46:27.048Z",
-      "note": ""
-    },
-    {
-      "id": 1781041591476,
-      "units": 28,
-      "type": "lenta",
-      "date": "2026-06-09T21:46:31.476Z",
-      "note": ""
-    },
-    {
-      "id": 1781070147702,
-      "units": 8,
-      "type": "rapida",
-      "date": "2026-06-10T05:42:27.702Z",
-      "note": ""
-    },
-    {
-      "id": 1781090810837,
-      "units": 10,
-      "type": "rapida",
-      "date": "2026-06-10T11:26:50.837Z",
-      "note": ""
-    },
-    {
-      "id": 1781102416864,
-      "units": 4,
-      "type": "rapida",
-      "date": "2026-06-10T14:40:16.864Z",
-      "note": ""
-    },
-    {
-      "id": 1781111421090,
-      "units": 13,
-      "type": "rapida",
-      "date": "2026-06-10T17:10:21.090Z",
-      "note": ""
-    },
-    {
-      "id": 1781127137295,
-      "units": 3,
-      "type": "rapida",
-      "date": "2026-06-10T21:32:17.295Z",
-      "note": ""
-    },
-    {
-      "id": 1781127203923,
-      "units": 28,
-      "type": "lenta",
-      "date": "2026-06-10T21:33:23.923Z",
-      "note": ""
-    },
-    {
-      "id": 1781158437651,
-      "units": 7,
-      "type": "rapida",
-      "date": "2026-06-11T06:13:57.651Z",
-      "note": ""
-    },
-    {
-      "id": 1781175670850,
-      "units": 11,
-      "type": "rapida",
-      "date": "2026-06-11T11:01:10.850Z",
-      "note": ""
-    },
-    {
-      "id": 1781202885913,
-      "units": 16,
-      "type": "rapida",
-      "date": "2026-06-11T18:34:45.913Z",
-      "note": ""
-    },
-    {
-      "id": 1781212922182,
-      "units": 28,
-      "type": "lenta",
-      "date": "2026-06-11T21:22:02.182Z",
-      "note": ""
-    },
-    {
-      "id": 1781242591181,
-      "units": 6,
-      "type": "rapida",
-      "date": "2026-06-12T05:36:31.181Z",
-      "note": ""
-    },
-    {
-      "id": 1781288976055,
-      "units": 11,
-      "type": "rapida",
-      "date": "2026-06-12T18:29:36.055Z",
-      "note": ""
-    },
-    {
-      "id": 1781304415298,
-      "units": 28,
-      "type": "lenta",
-      "date": "2026-06-12T22:46:55.298Z",
+      "date": "2026-06-13T11:32:06.09+00:00",
       "note": ""
     },
     {
       "id": 1781332066740,
       "units": 11,
       "type": "rapida",
-      "date": "2026-06-13T06:27:46.740Z",
+      "date": "2026-06-13T06:27:46.74+00:00",
       "note": ""
     },
     {
-      "id": 1781350326090,
-      "units": 17,
+      "id": 1781304415298,
+      "units": 28,
+      "type": "lenta",
+      "date": "2026-06-12T22:46:55.298+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781288976055,
+      "units": 11,
       "type": "rapida",
-      "date": "2026-06-13T11:32:06.090Z",
+      "date": "2026-06-12T18:29:36.055+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781242591181,
+      "units": 6,
+      "type": "rapida",
+      "date": "2026-06-12T05:36:31.181+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781212922182,
+      "units": 28,
+      "type": "lenta",
+      "date": "2026-06-11T21:22:02.182+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781202885913,
+      "units": 16,
+      "type": "rapida",
+      "date": "2026-06-11T18:34:45.913+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781175670850,
+      "units": 11,
+      "type": "rapida",
+      "date": "2026-06-11T11:01:10.85+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781158437651,
+      "units": 7,
+      "type": "rapida",
+      "date": "2026-06-11T06:13:57.651+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781127203923,
+      "units": 28,
+      "type": "lenta",
+      "date": "2026-06-10T21:33:23.923+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781127137295,
+      "units": 3,
+      "type": "rapida",
+      "date": "2026-06-10T21:32:17.295+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781111421090,
+      "units": 13,
+      "type": "rapida",
+      "date": "2026-06-10T17:10:21.09+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781102416864,
+      "units": 4,
+      "type": "rapida",
+      "date": "2026-06-10T14:40:16.864+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781090810837,
+      "units": 10,
+      "type": "rapida",
+      "date": "2026-06-10T11:26:50.837+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781070147702,
+      "units": 8,
+      "type": "rapida",
+      "date": "2026-06-10T05:42:27.702+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781041591476,
+      "units": 28,
+      "type": "lenta",
+      "date": "2026-06-09T21:46:31.476+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781041587048,
+      "units": 3,
+      "type": "rapida",
+      "date": "2026-06-09T21:46:27.048+00:00",
+      "note": ""
+    },
+    {
+      "id": 1781004230968,
+      "units": 11,
+      "type": "rapida",
+      "date": "2026-06-09T11:23:50.968+00:00",
+      "note": ""
+    },
+    {
+      "id": 1780984049917,
+      "units": 6,
+      "type": "rapida",
+      "date": "2026-06-09T05:47:29.917+00:00",
+      "note": ""
+    },
+    {
+      "id": 1780955239083,
+      "units": 28,
+      "type": "lenta",
+      "date": "2026-06-08T21:47:19.083+00:00",
+      "note": ""
+    },
+    {
+      "id": 1780943742647,
+      "units": 13,
+      "type": "rapida",
+      "date": "2026-06-08T18:35:42.647+00:00",
+      "note": ""
+    },
+    {
+      "id": 1780917977801,
+      "units": 10,
+      "type": "rapida",
+      "date": "2026-06-08T11:26:17.801+00:00",
+      "note": ""
+    },
+    {
+      "id": 1780897370165,
+      "units": 6,
+      "type": "rapida",
+      "date": "2026-06-08T05:42:50.165+00:00",
+      "note": ""
+    },
+    {
+      "id": 1780866432710,
+      "units": 29,
+      "type": "lenta",
+      "date": "2026-06-07T21:07:12.71+00:00",
+      "note": ""
+    },
+    {
+      "id": 1780852322470,
+      "units": 12,
+      "type": "rapida",
+      "date": "2026-06-07T17:12:02.47+00:00",
+      "note": ""
+    },
+    {
+      "id": 1780828810512,
+      "units": 10,
+      "type": "rapida",
+      "date": "2026-06-07T10:40:10.512+00:00",
       "note": ""
     }
   ],
@@ -518,116 +518,257 @@
   ],
   "meals": [
     {
-      "id": 1780853770379,
-      "carbs": 60,
-      "timing": "cena",
-      "foods": [],
-      "note": "",
-      "date": "2026-06-07T17:36:10.379Z"
-    },
-    {
-      "id": 1780854051319,
-      "carbs": 10,
-      "timing": "cena",
-      "foods": [],
-      "note": "",
-      "date": "2026-06-07T17:40:51.319Z"
-    },
-    {
-      "id": 1780854297123,
-      "carbs": 20,
-      "timing": "cena",
-      "foods": [],
-      "note": "",
-      "date": "2026-06-07T17:44:57.123Z"
-    },
-    {
-      "id": 1780898432053,
-      "carbs": 10,
-      "timing": "colazione",
-      "foods": [],
-      "note": "",
-      "date": "2026-06-08T06:00:32.053Z"
-    },
-    {
-      "id": 1780917994547,
-      "carbs": 69,
-      "timing": "pranzo",
-      "foods": [],
-      "note": "",
-      "date": "2026-06-08T11:26:34.547Z"
-    },
-    {
-      "id": 1780943759221,
-      "carbs": 90,
-      "timing": "cena",
-      "foods": [],
-      "note": "",
-      "date": "2026-06-08T18:35:59.221Z"
-    },
-    {
-      "id": 1780949200125,
-      "carbs": 22,
+      "id": 1781346909086,
+      "carbs": 11,
       "timing": "spuntino",
-      "foods": [],
-      "note": "",
-      "date": "2026-06-08T20:06:40.125Z"
-    },
-    {
-      "id": 1780955210977,
-      "carbs": 17.5,
-      "timing": "colazione",
       "foods": [
         {
-          "name": "Biscotto con gocce di cioccolato",
-          "grams": 25,
-          "carbsFromAI": 17.5
+          "name": "Succo e polpa di albicocca Solevita",
+          "grams": 200,
+          "carbsFromAI": 22
         }
       ],
       "note": "",
-      "date": "2026-06-08T21:46:50.979Z"
+      "date": "2026-06-13T10:35:09.086+00:00"
     },
     {
-      "id": 1780983991909,
-      "carbs": 35,
+      "id": 1781332077555,
+      "carbs": 102,
+      "timing": "colazione",
+      "foods": [
+        {
+          "name": "Biscotto ai cereali con gocce di cioccolato",
+          "grams": 25,
+          "carbsFromAI": 17
+        }
+      ],
+      "note": "",
+      "date": "2026-06-13T06:27:57.555+00:00"
+    },
+    {
+      "id": 1781288966866,
+      "carbs": 60,
+      "timing": "cena",
+      "foods": [
+        {
+          "name": "Pane integrale/multicereali",
+          "grams": 80,
+          "carbsFromAI": 38.4
+        }
+      ],
+      "note": "",
+      "date": "2026-06-12T18:29:26.866+00:00"
+    },
+    {
+      "id": 1781263296904,
+      "carbs": 51,
+      "timing": "pranzo",
+      "foods": [
+        {
+          "name": "Cotoletta impanata (presumibilmente di pollo o vitello)",
+          "grams": 180,
+          "carbsFromAI": 14.4
+        },
+        {
+          "name": "Patate bollite con prezzemolo",
+          "grams": 220,
+          "carbsFromAI": 37.4
+        }
+      ],
+      "note": "",
+      "date": "2026-06-12T11:21:36.904+00:00"
+    },
+    {
+      "id": 1781253732066,
+      "carbs": 11,
+      "timing": "spuntino",
+      "foods": [
+        {
+          "name": "Succo e polpa di albicocca Solevita",
+          "grams": 200,
+          "carbsFromAI": 22
+        }
+      ],
+      "note": "",
+      "date": "2026-06-12T08:42:12.066+00:00"
+    },
+    {
+      "id": 1781242582374,
+      "carbs": 48,
+      "timing": "colazione",
+      "foods": [
+        {
+          "name": "Muesli croccante al cioccolato biologico",
+          "grams": 50,
+          "carbsFromAI": 34
+        }
+      ],
+      "note": "",
+      "date": "2026-06-12T05:36:22.374+00:00"
+    },
+    {
+      "id": 1781202875562,
+      "carbs": 93,
+      "timing": "cena",
+      "foods": [
+        {
+          "name": "pizza margherita - impasto",
+          "grams": 280,
+          "carbsFromAI": 89.6
+        },
+        {
+          "name": "salsa di pomodoro",
+          "grams": 40,
+          "carbsFromAI": 1.32
+        },
+        {
+          "name": "mozzarella",
+          "grams": 60,
+          "carbsFromAI": 1.86
+        },
+        {
+          "name": "basilico fresco",
+          "grams": 3,
+          "carbsFromAI": 0.07
+        }
+      ],
+      "note": "",
+      "date": "2026-06-11T18:34:35.562+00:00"
+    },
+    {
+      "id": 1781175605533,
+      "carbs": 107,
+      "timing": "pranzo",
+      "foods": [],
+      "note": "",
+      "date": "2026-06-11T11:00:05.533+00:00"
+    },
+    {
+      "id": 1781161810073,
+      "carbs": 50,
+      "timing": "colazione",
+      "foods": [
+        {
+          "name": "Muesli croccante al cioccolato biologico Crownfield",
+          "grams": 45,
+          "carbsFromAI": 32
+        }
+      ],
+      "note": "",
+      "date": "2026-06-11T07:10:10.073+00:00"
+    },
+    {
+      "id": 1781111411687,
+      "carbs": 62,
+      "timing": "cena",
+      "foods": [
+        {
+          "name": "Mais bollito",
+          "grams": 120,
+          "carbsFromAI": 22.8
+        },
+        {
+          "name": "Pane tostato burrato",
+          "grams": 80,
+          "carbsFromAI": 39.2
+        }
+      ],
+      "note": "",
+      "date": "2026-06-10T17:10:11.687+00:00"
+    },
+    {
+      "id": 1781091385614,
+      "carbs": 48,
+      "timing": "pranzo",
+      "foods": [
+        {
+          "name": "Biscotto con gocce di cioccolato",
+          "grams": 35,
+          "carbsFromAI": 23.8
+        }
+      ],
+      "note": "",
+      "date": "2026-06-10T11:36:25.614+00:00"
+    },
+    {
+      "id": 1781090684620,
+      "carbs": 147,
+      "timing": "pranzo",
+      "foods": [
+        {
+          "name": "Pane bianco tostato",
+          "grams": 80,
+          "carbsFromAI": 39.2
+        },
+        {
+          "name": "Prosciutto crudo",
+          "grams": 40,
+          "carbsFromAI": 0.4
+        },
+        {
+          "name": "Formaggio (presumibilmente emmental o simile)",
+          "grams": 30,
+          "carbsFromAI": 0.39
+        }
+      ],
+      "note": "",
+      "date": "2026-06-10T11:24:44.621+00:00"
+    },
+    {
+      "id": 1781080147143,
+      "carbs": 3,
+      "timing": "colazione",
+      "foods": [
+        {
+          "name": "banana",
+          "grams": 120,
+          "carbsFromAI": 32.4
+        }
+      ],
+      "note": "",
+      "date": "2026-06-10T08:29:07.143+00:00"
+    },
+    {
+      "id": 1781070809587,
+      "carbs": 48,
       "timing": "colazione",
       "foods": [
         {
           "name": "Granola Cioccolato & Lamponi Bowl Pros",
           "grams": 45,
+          "carbsFromAI": 30.6
+        }
+      ],
+      "note": "",
+      "date": "2026-06-10T05:53:29.587+00:00"
+    },
+    {
+      "id": 1781012017271,
+      "carbs": 13,
+      "timing": "spuntino",
+      "foods": [
+        {
+          "name": "Succo di frutta Soleivia (pesca e albicocca)",
+          "grams": 250,
           "carbsFromAI": 28
         }
       ],
       "note": "",
-      "date": "2026-06-09T05:46:31.909Z"
+      "date": "2026-06-09T13:33:37.271+00:00"
     },
     {
-      "id": 1780993056400,
-      "carbs": 9,
-      "timing": "colazione",
+      "id": 1781005028975,
+      "carbs": 36,
+      "timing": "pranzo",
       "foods": [
         {
-          "name": "Succo e polpa di albicocca Solevita",
-          "grams": 200,
+          "name": "Biscotto con gocce di cioccolato",
+          "grams": 25,
           "carbsFromAI": 18
         }
       ],
       "note": "",
-      "date": "2026-06-09T08:17:36.400Z"
-    },
-    {
-      "id": 1780998429031,
-      "carbs": 27,
-      "timing": "spuntino",
-      "foods": [
-        {
-          "name": "Banana",
-          "grams": 120,
-          "carbsFromAI": 27
-        }
-      ],
-      "note": "",
-      "date": "2026-06-09T09:47:09.031Z"
+      "date": "2026-06-09T11:37:08.975+00:00"
     },
     {
       "id": 1781004086930,
@@ -661,448 +802,332 @@
         }
       ],
       "note": "",
-      "date": "2026-06-09T11:21:26.930Z"
+      "date": "2026-06-09T11:21:26.93+00:00"
     },
     {
-      "id": 1781005028975,
-      "carbs": 36,
-      "timing": "pranzo",
+      "id": 1780998429031,
+      "carbs": 27,
+      "timing": "spuntino",
       "foods": [
         {
-          "name": "Biscotto con gocce di cioccolato",
-          "grams": 25,
+          "name": "Banana",
+          "grams": 120,
+          "carbsFromAI": 27
+        }
+      ],
+      "note": "",
+      "date": "2026-06-09T09:47:09.031+00:00"
+    },
+    {
+      "id": 1780993056400,
+      "carbs": 9,
+      "timing": "colazione",
+      "foods": [
+        {
+          "name": "Succo e polpa di albicocca Solevita",
+          "grams": 200,
           "carbsFromAI": 18
         }
       ],
       "note": "",
-      "date": "2026-06-09T11:37:08.975Z"
+      "date": "2026-06-09T08:17:36.4+00:00"
     },
     {
-      "id": 1781012017271,
-      "carbs": 13,
-      "timing": "spuntino",
-      "foods": [
-        {
-          "name": "Succo di frutta Soleivia (pesca e albicocca)",
-          "grams": 250,
-          "carbsFromAI": 28
-        }
-      ],
-      "note": "",
-      "date": "2026-06-09T13:33:37.271Z"
-    },
-    {
-      "id": 1781070809587,
-      "carbs": 48,
+      "id": 1780983991909,
+      "carbs": 35,
       "timing": "colazione",
       "foods": [
         {
           "name": "Granola Cioccolato & Lamponi Bowl Pros",
           "grams": 45,
-          "carbsFromAI": 30.6
+          "carbsFromAI": 28
         }
       ],
       "note": "",
-      "date": "2026-06-10T05:53:29.587Z"
+      "date": "2026-06-09T05:46:31.909+00:00"
     },
     {
-      "id": 1781080147143,
-      "carbs": 3,
+      "id": 1780955210977,
+      "carbs": 17.5,
       "timing": "colazione",
-      "foods": [
-        {
-          "name": "banana",
-          "grams": 120,
-          "carbsFromAI": 32.4
-        }
-      ],
-      "note": "",
-      "date": "2026-06-10T08:29:07.143Z"
-    },
-    {
-      "id": 1781090684620,
-      "carbs": 147,
-      "timing": "pranzo",
-      "foods": [
-        {
-          "name": "Pane bianco tostato",
-          "grams": 80,
-          "carbsFromAI": 39.2
-        },
-        {
-          "name": "Prosciutto crudo",
-          "grams": 40,
-          "carbsFromAI": 0.4
-        },
-        {
-          "name": "Formaggio (presumibilmente emmental o simile)",
-          "grams": 30,
-          "carbsFromAI": 0.39
-        }
-      ],
-      "note": "",
-      "date": "2026-06-10T11:24:44.621Z"
-    },
-    {
-      "id": 1781091385614,
-      "carbs": 48,
-      "timing": "pranzo",
       "foods": [
         {
           "name": "Biscotto con gocce di cioccolato",
-          "grams": 35,
-          "carbsFromAI": 23.8
+          "grams": 25,
+          "carbsFromAI": 17.5
         }
       ],
       "note": "",
-      "date": "2026-06-10T11:36:25.614Z"
+      "date": "2026-06-08T21:46:50.979+00:00"
     },
     {
-      "id": 1781111411687,
-      "carbs": 62,
+      "id": 1780949200125,
+      "carbs": 22,
+      "timing": "spuntino",
+      "foods": [],
+      "note": "",
+      "date": "2026-06-08T20:06:40.125+00:00"
+    },
+    {
+      "id": 1780943759221,
+      "carbs": 90,
       "timing": "cena",
-      "foods": [
-        {
-          "name": "Mais bollito",
-          "grams": 120,
-          "carbsFromAI": 22.8
-        },
-        {
-          "name": "Pane tostato burrato",
-          "grams": 80,
-          "carbsFromAI": 39.2
-        }
-      ],
+      "foods": [],
       "note": "",
-      "date": "2026-06-10T17:10:11.687Z"
+      "date": "2026-06-08T18:35:59.221+00:00"
     },
     {
-      "id": 1781161810073,
-      "carbs": 50,
-      "timing": "colazione",
-      "foods": [
-        {
-          "name": "Muesli croccante al cioccolato biologico Crownfield",
-          "grams": 45,
-          "carbsFromAI": 32
-        }
-      ],
-      "note": "",
-      "date": "2026-06-11T07:10:10.073Z"
-    },
-    {
-      "id": 1781175605533,
-      "carbs": 107,
+      "id": 1780917994547,
+      "carbs": 69,
       "timing": "pranzo",
       "foods": [],
       "note": "",
-      "date": "2026-06-11T11:00:05.533Z"
+      "date": "2026-06-08T11:26:34.547+00:00"
     },
     {
-      "id": 1781202875562,
-      "carbs": 93,
-      "timing": "cena",
-      "foods": [
-        {
-          "name": "pizza margherita - impasto",
-          "grams": 280,
-          "carbsFromAI": 89.6
-        },
-        {
-          "name": "salsa di pomodoro",
-          "grams": 40,
-          "carbsFromAI": 1.32
-        },
-        {
-          "name": "mozzarella",
-          "grams": 60,
-          "carbsFromAI": 1.86
-        },
-        {
-          "name": "basilico fresco",
-          "grams": 3,
-          "carbsFromAI": 0.07
-        }
-      ],
-      "note": "",
-      "date": "2026-06-11T18:34:35.562Z"
-    },
-    {
-      "id": 1781242582374,
-      "carbs": 48,
+      "id": 1780898432053,
+      "carbs": 10,
       "timing": "colazione",
-      "foods": [
-        {
-          "name": "Muesli croccante al cioccolato biologico",
-          "grams": 50,
-          "carbsFromAI": 34
-        }
-      ],
+      "foods": [],
       "note": "",
-      "date": "2026-06-12T05:36:22.374Z"
+      "date": "2026-06-08T06:00:32.053+00:00"
     },
     {
-      "id": 1781253732066,
-      "carbs": 11,
-      "timing": "spuntino",
-      "foods": [
-        {
-          "name": "Succo e polpa di albicocca Solevita",
-          "grams": 200,
-          "carbsFromAI": 22
-        }
-      ],
+      "id": 1780854297123,
+      "carbs": 20,
+      "timing": "cena",
+      "foods": [],
       "note": "",
-      "date": "2026-06-12T08:42:12.066Z"
+      "date": "2026-06-07T17:44:57.123+00:00"
     },
     {
-      "id": 1781263296904,
-      "carbs": 51,
-      "timing": "pranzo",
-      "foods": [
-        {
-          "name": "Cotoletta impanata (presumibilmente di pollo o vitello)",
-          "grams": 180,
-          "carbsFromAI": 14.4
-        },
-        {
-          "name": "Patate bollite con prezzemolo",
-          "grams": 220,
-          "carbsFromAI": 37.4
-        }
-      ],
+      "id": 1780854051319,
+      "carbs": 10,
+      "timing": "cena",
+      "foods": [],
       "note": "",
-      "date": "2026-06-12T11:21:36.904Z"
+      "date": "2026-06-07T17:40:51.319+00:00"
     },
     {
-      "id": 1781288966866,
+      "id": 1780853770379,
       "carbs": 60,
       "timing": "cena",
-      "foods": [
-        {
-          "name": "Pane integrale/multicereali",
-          "grams": 80,
-          "carbsFromAI": 38.4
-        }
-      ],
+      "foods": [],
       "note": "",
-      "date": "2026-06-12T18:29:26.866Z"
-    },
-    {
-      "id": 1781332077555,
-      "carbs": 102,
-      "timing": "colazione",
-      "foods": [
-        {
-          "name": "Biscotto ai cereali con gocce di cioccolato",
-          "grams": 25,
-          "carbsFromAI": 17
-        }
-      ],
-      "note": "",
-      "date": "2026-06-13T06:27:57.555Z"
-    },
-    {
-      "id": 1781346909086,
-      "carbs": 11,
-      "timing": "spuntino",
-      "foods": [
-        {
-          "name": "Succo e polpa di albicocca Solevita",
-          "grams": 200,
-          "carbsFromAI": 22
-        }
-      ],
-      "note": "",
-      "date": "2026-06-13T10:35:09.086Z"
+      "date": "2026-06-07T17:36:10.379+00:00"
     }
   ],
   "libreData": [
     {
       "id": 1781000500000,
       "value": 71,
-      "date": "2026-06-09T10:21:40.000Z"
+      "date": "2026-06-09T10:21:40+00:00"
     },
     {
       "id": 1781009503000,
       "value": 113,
-      "date": "2026-06-09T12:51:43.000Z"
+      "date": "2026-06-09T12:51:43+00:00"
     },
     {
       "id": 1781018503000,
       "value": 61,
-      "date": "2026-06-09T15:21:43.000Z"
+      "date": "2026-06-09T15:21:43+00:00"
     },
     {
       "id": 1781027503000,
       "value": 179,
-      "date": "2026-06-09T17:51:43.000Z"
+      "date": "2026-06-09T17:51:43+00:00"
     },
     {
       "id": 1781036504000,
       "value": 235,
-      "date": "2026-06-09T20:21:44.000Z"
+      "date": "2026-06-09T20:21:44+00:00"
     },
     {
       "id": 1781045504000,
       "value": 130,
-      "date": "2026-06-09T22:51:44.000Z"
+      "date": "2026-06-09T22:51:44+00:00"
     },
     {
       "id": 1781059907000,
       "value": 162,
-      "date": "2026-06-10T02:51:47.000Z"
+      "date": "2026-06-10T02:51:47+00:00"
     },
     {
       "id": 1781068907000,
       "value": 161,
-      "date": "2026-06-10T05:21:47.000Z"
+      "date": "2026-06-10T05:21:47+00:00"
     },
     {
       "id": 1781077908000,
       "value": 180,
-      "date": "2026-06-10T07:51:48.000Z"
+      "date": "2026-06-10T07:51:48+00:00"
     },
     {
       "id": 1781086909000,
       "value": 132,
-      "date": "2026-06-10T10:21:49.000Z"
+      "date": "2026-06-10T10:21:49+00:00"
     },
     {
       "id": 1781095910000,
       "value": 115,
-      "date": "2026-06-10T12:51:50.000Z"
+      "date": "2026-06-10T12:51:50+00:00"
     },
     {
       "id": 1781104912000,
       "value": 119,
-      "date": "2026-06-10T15:21:52.000Z"
+      "date": "2026-06-10T15:21:52+00:00"
     },
     {
       "id": 1781113913000,
       "value": 259,
-      "date": "2026-06-10T17:51:53.000Z"
+      "date": "2026-06-10T17:51:53+00:00"
     },
     {
       "id": 1781122913000,
       "value": 184,
-      "date": "2026-06-10T20:21:53.000Z"
+      "date": "2026-06-10T20:21:53+00:00"
     },
     {
       "id": 1781131916000,
       "value": 184,
-      "date": "2026-06-10T22:51:56.000Z"
+      "date": "2026-06-10T22:51:56+00:00"
     },
     {
       "id": 1781147216000,
       "value": 163,
-      "date": "2026-06-11T03:06:56.000Z"
+      "date": "2026-06-11T03:06:56+00:00"
     },
     {
       "id": 1781156216000,
       "value": 172,
-      "date": "2026-06-11T05:36:56.000Z"
+      "date": "2026-06-11T05:36:56+00:00"
     },
     {
       "id": 1781165218000,
       "value": 176,
-      "date": "2026-06-11T08:06:58.000Z"
+      "date": "2026-06-11T08:06:58+00:00"
     },
     {
       "id": 1781174218000,
       "value": 186,
-      "date": "2026-06-11T10:36:58.000Z"
+      "date": "2026-06-11T10:36:58+00:00"
     },
     {
       "id": 1781183220000,
       "value": 145,
-      "date": "2026-06-11T13:07:00.000Z"
+      "date": "2026-06-11T13:07:00+00:00"
     },
     {
       "id": 1781192221000,
       "value": 136,
-      "date": "2026-06-11T15:37:01.000Z"
+      "date": "2026-06-11T15:37:01+00:00"
     },
     {
       "id": 1781201222000,
       "value": 248,
-      "date": "2026-06-11T18:07:02.000Z"
+      "date": "2026-06-11T18:07:02+00:00"
     },
     {
       "id": 1781210223000,
       "value": 234,
-      "date": "2026-06-11T20:37:03.000Z"
+      "date": "2026-06-11T20:37:03+00:00"
     },
     {
       "id": 1781219223000,
       "value": 86,
-      "date": "2026-06-11T23:07:03.000Z"
+      "date": "2026-06-11T23:07:03+00:00"
     },
     {
       "id": 1781232724000,
       "value": 76,
-      "date": "2026-06-12T02:52:04.000Z"
+      "date": "2026-06-12T02:52:04+00:00"
     },
     {
       "id": 1781241726000,
       "value": 65,
-      "date": "2026-06-12T05:22:06.000Z"
+      "date": "2026-06-12T05:22:06+00:00"
     },
     {
       "id": 1781250726000,
       "value": 92,
-      "date": "2026-06-12T07:52:06.000Z"
+      "date": "2026-06-12T07:52:06+00:00"
     },
     {
       "id": 1781259728000,
       "value": 64,
-      "date": "2026-06-12T10:22:08.000Z"
+      "date": "2026-06-12T10:22:08+00:00"
     },
     {
       "id": 1781268729000,
       "value": 119,
-      "date": "2026-06-12T12:52:09.000Z"
+      "date": "2026-06-12T12:52:09+00:00"
     },
     {
       "id": 1781277730000,
       "value": 92,
-      "date": "2026-06-12T15:22:10.000Z"
+      "date": "2026-06-12T15:22:10+00:00"
     },
     {
       "id": 1781286731000,
       "value": 173,
-      "date": "2026-06-12T17:52:11.000Z"
+      "date": "2026-06-12T17:52:11+00:00"
     },
     {
       "id": 1781295731000,
       "value": 181,
-      "date": "2026-06-12T20:22:11.000Z"
+      "date": "2026-06-12T20:22:11+00:00"
     },
     {
       "id": 1781304732000,
       "value": 95,
-      "date": "2026-06-12T22:52:12.000Z"
+      "date": "2026-06-12T22:52:12+00:00"
+    },
+    {
+      "id": 1781313733000,
+      "value": 201,
+      "date": "2026-06-13T01:22:13.000Z"
+    },
+    {
+      "id": 1781322734000,
+      "value": 196,
+      "date": "2026-06-13T03:52:14.000Z"
+    },
+    {
+      "id": 1781331735000,
+      "value": 181,
+      "date": "2026-06-13T06:22:15.000Z"
+    },
+    {
+      "id": 1781340737000,
+      "value": 157,
+      "date": "2026-06-13T08:52:17.000Z"
+    },
+    {
+      "id": 1781349737000,
+      "value": 85,
+      "date": "2026-06-13T11:22:17.000Z"
     }
   ],
   "insulinConfig": {
     "dosePerPasto": {
-      "colazione": 0,
-      "pranzo": 0,
-      "cena": 0,
-      "dormire": 0
+      "colazione": 6,
+      "pranzo": 9,
+      "cena": 10,
+      "dormire": 28
     },
     "carbRatio": 7.5,
+    "targetGlucose": 120,
+    "isf": 50,
     "carbRatioPerPasto": {
       "colazione": 6,
       "pranzo": 9.5,
       "cena": 6
     },
-    "targetGlucose": 120,
-    "isf": 50,
     "adaptiveUpdate": {
       "updatedAt": "2026-06-12T13:54:16.736Z",
       "campioni": 8
     }
   },
-  "savedAt": "2026-06-13T16:14:33.820Z"
+  "savedAt": "2026-06-13T16:48:08.467Z"
 }
