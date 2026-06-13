@@ -4,8 +4,139 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Diabete Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500&display=swap');
+  #login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    padding: 20px;
+  }
+  .login-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 32px 24px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+  .login-logo {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .login-logo h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-top: 8px;
+  }
+  .login-logo p {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+  .login-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    background: #f1f5f9;
+    border-radius: 12px;
+    padding: 4px;
+  }
+  .login-tab {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    background: transparent;
+    color: #94a3b8;
+    transition: all 0.2s;
+  }
+  .login-tab.active {
+    background: #fff;
+    color: #1e293b;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+  .login-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: #1e293b;
+    margin-bottom: 10px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .login-input:focus { border-color: #3b82f6; }
+  .login-btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: #fff;
+    margin-bottom: 10px;
+    transition: opacity 0.2s;
+  }
+  .login-btn:hover { opacity: 0.9; }
+  .login-btn-google {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    background: #fff;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: border-color 0.2s;
+  }
+  .login-btn-google:hover { border-color: #3b82f6; }
+  .login-divider {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 12px;
+    margin: 12px 0;
+    position: relative;
+  }
+  .login-divider::before, .login-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: #e2e8f0;
+  }
+  .login-divider::before { left: 0; }
+  .login-divider::after { right: 0; }
+  .login-msg {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 10px;
+    min-height: 18px;
+    font-weight: 600;
+  }
+  .login-msg.error { color: #ef4444; }
+  .login-msg.success { color: #22c55e; }
+</style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'DM Sans',sans-serif;background:#f0f4f8;min-height:100vh;color:#1e293b}
   .app{max-width:480px;margin:0 auto;padding:20px 14px 40px}
@@ -80,7 +211,48 @@
 </style>
 </head>
 <body>
-<div class="app">
+<!-- SCHERMATA LOGIN -->
+<div id="login-screen" style="display:none">
+  <div class="login-card">
+    <div class="login-logo">
+      <div style="font-size:40px">🩺</div>
+      <h1>Diabete Tracker</h1>
+      <p>Il tuo assistente personale per il diabete</p>
+    </div>
+
+    <div class="login-tabs">
+      <button class="login-tab active" onclick="switchLoginTab('login')">Accedi</button>
+      <button class="login-tab" onclick="switchLoginTab('register')">Registrati</button>
+    </div>
+
+    <div id="login-form">
+      <input type="email" class="login-input" id="login-email" placeholder="Email"/>
+      <input type="password" class="login-input" id="login-password" placeholder="Password"/>
+      <button class="login-btn" onclick="loginWithEmail()">Accedi</button>
+      <div class="login-divider">oppure</div>
+      <button class="login-btn-google" onclick="loginWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.548 0 9s.347 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+        Continua con Google
+      </button>
+      <div class="login-msg" id="login-msg"></div>
+    </div>
+
+    <div id="register-form" style="display:none">
+      <input type="text" class="login-input" id="reg-nome" placeholder="Nome"/>
+      <input type="email" class="login-input" id="reg-email" placeholder="Email"/>
+      <input type="password" class="login-input" id="reg-password" placeholder="Password (min 6 caratteri)"/>
+      <button class="login-btn" onclick="registerWithEmail()">Crea account</button>
+      <div class="login-divider">oppure</div>
+      <button class="login-btn-google" onclick="loginWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.548 0 9s.347 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+        Continua con Google
+      </button>
+      <div class="login-msg" id="reg-msg"></div>
+    </div>
+  </div>
+</div>
+
+<div class="app" id="main-app" style="display:none">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
     <h1 style="margin-bottom:0">🩺 Diabete Tracker</h1>
     <button onclick="showSection('impostazioni')" id="sbtn-impostazioni" style="background:#f1f5f9;border:none;border-radius:10px;padding:8px 12px;font-size:16px;cursor:pointer;color:#64748b">⚙️</button>
@@ -388,11 +560,89 @@
     </div>
     <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)"/>
     <div id="backup-msg" style="font-size:12px;text-align:center;color:#94a3b8;min-height:16px"></div>
+    <button onclick="logout()" style="width:100%;padding:10px;border:none;border-radius:11px;background:#fef2f2;color:#ef4444;font-weight:700;font-size:13px;cursor:pointer;margin-top:8px">🚪 Esci dall'account</button>
   </div>
   <div style="font-size:10px;color:#cbd5e1;text-align:center;margin-top:14px">Dati salvati nel browser · Non sostituisce il parere medico</div>
 </div>
+</div>
 
 <script>
+// ── Supabase ──────────────────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://zynytvhmlnvlvswuhtse.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_bhmy7olw7-7VxATfSW248g_siFu7lFO';
+const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+
+async function initAuth() {
+  const { data: { session } } = await sbClient.auth.getSession();
+  if (session?.user) {
+    currentUser = session.user;
+    showApp();
+  } else {
+    showLoginScreen();
+  }
+
+  sbClient.auth.onAuthStateChange((event, session) => {
+    if (session?.user) {
+      currentUser = session.user;
+      showApp();
+    } else {
+      currentUser = null;
+      showLoginScreen();
+    }
+  });
+}
+
+function showLoginScreen() {
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('main-app').style.display = 'none';
+}
+
+function showApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('main-app').style.display = 'block';
+  initApp();
+}
+
+function switchLoginTab(tab) {
+  document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('login-form').style.display = tab === 'login' ? '' : 'none';
+  document.getElementById('register-form').style.display = tab === 'register' ? '' : 'none';
+}
+
+async function loginWithEmail() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const msg = document.getElementById('login-msg');
+  if (!email || !password) { msg.textContent = 'Inserisci email e password'; msg.className = 'login-msg error'; return; }
+  msg.textContent = 'Accesso in corso...'; msg.className = 'login-msg';
+  const { error } = await sbClient.auth.signInWithPassword({ email, password });
+  if (error) { msg.textContent = error.message; msg.className = 'login-msg error'; }
+}
+
+async function registerWithEmail() {
+  const nome = document.getElementById('reg-nome').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const password = document.getElementById('reg-password').value;
+  const msg = document.getElementById('reg-msg');
+  if (!email || !password) { msg.textContent = 'Inserisci email e password'; msg.className = 'login-msg error'; return; }
+  if (password.length < 6) { msg.textContent = 'Password minimo 6 caratteri'; msg.className = 'login-msg error'; return; }
+  msg.textContent = 'Creazione account...'; msg.className = 'login-msg';
+  const { error } = await sbClient.auth.signUp({ email, password, options: { data: { nome } } });
+  if (error) { msg.textContent = error.message; msg.className = 'login-msg error'; }
+  else { msg.textContent = '✅ Account creato! Controlla la tua email per confermare.'; msg.className = 'login-msg success'; }
+}
+
+async function loginWithGoogle() {
+  await sbClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
+}
+
+async function logout() {
+  await sbClient.auth.signOut();
+}
+
 // ── State ────────────────────────────────────────────────────────────────────
 let readings  = JSON.parse(localStorage.getItem('dt-readings')  || '[]');
 let insulin   = JSON.parse(localStorage.getItem('dt-insulin')   || '[]');
@@ -2270,6 +2520,7 @@ if (apiKey) {
   document.getElementById('api-key-msg').textContent = '🔑 Chiave API configurata ✓';
   document.getElementById('api-key-msg').style.color = '#94a3b8';
 }
+function initApp() {
 // Popola campi configurazione insulina
 if (insulinConfig.dosePerPasto?.colazione) document.getElementById('cfg-dose-colazione').value = insulinConfig.dosePerPasto.colazione;
 if (insulinConfig.dosePerPasto?.pranzo)    document.getElementById('cfg-dose-pranzo').value    = insulinConfig.dosePerPasto.pranzo;
@@ -2279,8 +2530,11 @@ if (insulinConfig.carbRatio)     { const el = document.getElementById('cfg-ratio
 if (insulinConfig.targetGlucose) { const el = document.getElementById('cfg-target');   if (el) el.value = insulinConfig.targetGlucose; }
 if (insulinConfig.isf)           { const el = document.getElementById('cfg-isf');      if (el) el.value = insulinConfig.isf; }
 showSection('glicemia');
-// Carica config adattiva in background
 setTimeout(loadAdaptiveConfig, 2000);
+}
+
+// Avvia autenticazione
+initAuth();
 </script>
 </body>
 </html>
