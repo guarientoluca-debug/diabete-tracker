@@ -258,6 +258,13 @@
       "date": "2026-06-07T08:53:02.872+00:00",
       "timing": "digiuno",
       "note": ""
+    },
+    {
+      "id": 1781390652025,
+      "value": 200,
+      "date": "2026-06-13T22:44:12.025Z",
+      "timing": "digiuno",
+      "note": ""
     }
   ],
   "insulin": [
@@ -1128,23 +1135,23 @@
   ],
   "insulinConfig": {
     "dosePerPasto": {
-      "colazione": 0,
-      "pranzo": 0,
-      "cena": 0,
-      "dormire": 0
+      "colazione": 6,
+      "pranzo": 9,
+      "cena": 10,
+      "dormire": 28
     },
     "carbRatio": 7.5,
+    "targetGlucose": 120,
+    "isf": 50,
     "carbRatioPerPasto": {
       "colazione": 6,
       "pranzo": 9.5,
       "cena": 6
     },
-    "targetGlucose": 120,
-    "isf": 50,
     "adaptiveUpdate": {
       "updatedAt": "2026-06-12T13:54:16.736Z",
       "campioni": 8
     }
   },
-  "savedAt": "2026-06-13T21:31:54.939Z"
+  "savedAt": "2026-06-13T22:44:18.149Z"
 }
