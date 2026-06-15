@@ -1,6 +1,13 @@
 {
   "readings": [
     {
+      "id": 1781549352154,
+      "value": 130,
+      "date": "2026-06-15T18:49:12.154+00:00",
+      "timing": "post-pasto",
+      "note": ""
+    },
+    {
       "id": 1781522985983,
       "value": 180,
       "date": "2026-06-15T11:29:45.983+00:00",
@@ -299,13 +306,6 @@
       "value": 110,
       "date": "2026-06-07T08:53:02.872+00:00",
       "timing": "digiuno",
-      "note": ""
-    },
-    {
-      "id": 1781549352154,
-      "value": 130,
-      "date": "2026-06-15T18:49:12.154Z",
-      "timing": "post-pasto",
       "note": ""
     }
   ],
@@ -1324,23 +1324,23 @@
   ],
   "insulinConfig": {
     "dosePerPasto": {
-      "colazione": 6,
-      "pranzo": 9,
-      "cena": 10,
-      "dormire": 28
+      "colazione": 0,
+      "pranzo": 0,
+      "cena": 0,
+      "dormire": 0
     },
     "carbRatio": 8,
-    "targetGlucose": 120,
-    "isf": 50,
     "carbRatioPerPasto": {
       "colazione": 7.5,
       "pranzo": 9.5,
       "cena": 6
     },
+    "targetGlucose": 120,
+    "isf": 50,
     "adaptiveUpdate": {
       "updatedAt": "2026-06-15T08:54:12.772Z",
       "campioni": 13
     }
   },
-  "savedAt": "2026-06-15T19:07:11.047Z"
+  "savedAt": "2026-06-15T20:02:30.204Z"
 }
