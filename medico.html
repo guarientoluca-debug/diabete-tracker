@@ -593,11 +593,22 @@ async function doLogin() {
   }
 
   // Verifica che l'utente sia effettivamente un medico registrato
-  const { data: medico, error: medErr } = await sb
+  let { data: medico, error: medErr } = await sb
     .from('medici')
     .select('*')
     .eq('user_id', data.user.id)
     .single();
+
+  // Se il profilo medico non esiste ancora ma ci sono dati di registrazione
+  // in sospeso (caso tipico: primo login dopo la conferma email), lo completiamo ora.
+  if ((medErr || !medico) && data.user.user_metadata?.pending_invito_codice) {
+    btn.textContent = 'Completamento registrazione…';
+    const ok = await completePendingMedicoSetup(data.user);
+    if (ok) {
+      medico = currentMedico;
+      medErr = null;
+    }
+  }
 
   if (medErr || !medico) {
     errEl.textContent = 'Questo account non è registrato come medico su questo portale.';
@@ -657,9 +668,22 @@ async function doRegister() {
     return;
   }
 
-  // 2. Crea l'account Supabase Auth
+  // 2. Crea l'account Supabase Auth.
+  // Salviamo nome, specializzazione e codice invito nei metadata dell'utente:
+  // verranno usati per completare la creazione del profilo medico al primo
+  // login riuscito, quando la sessione sarà finalmente attiva dopo la
+  // conferma email (auth.uid() non è valido nell'istante del signUp stesso).
   btn.textContent = 'Creazione account…';
-  const { data: signUpData, error: signUpErr } = await sb.auth.signUp({ email, password });
+  const { data: signUpData, error: signUpErr } = await sb.auth.signUp({
+    email, password,
+    options: {
+      data: {
+        pending_medico_nome: nome,
+        pending_medico_spec: spec || null,
+        pending_invito_codice: codice,
+      }
+    }
+  });
 
   if (signUpErr) {
     errEl.textContent = signUpErr.message.includes('already registered')
@@ -670,44 +694,61 @@ async function doRegister() {
     return;
   }
 
-  const userId = signUpData.user?.id;
-  if (!userId) {
-    errEl.textContent = 'Controlla la tua email per confermare l\'account, poi accedi.';
-    errEl.classList.add('show');
-    btn.disabled = false; btn.textContent = 'Crea account e collegati';
-    return;
+  // Se la sessione è già attiva (conferma email disattivata su Supabase),
+  // completiamo subito il setup. Altrimenti chiediamo di controllare l'email.
+  if (signUpData.session) {
+    const ok = await completePendingMedicoSetup(signUpData.user);
+    if (ok) {
+      okEl.textContent = 'Account creato! Accesso in corso…';
+      okEl.classList.add('show');
+      setTimeout(() => enterApp(), 800);
+      return;
+    }
   }
 
-  // 3. Crea il profilo medico
-  btn.textContent = 'Collegamento al paziente…';
+  okEl.textContent = 'Account creato! Controlla la tua email per confermarlo, poi accedi dalla scheda "Accedi".';
+  okEl.classList.add('show');
+  btn.disabled = false; btn.textContent = 'Crea account e collegati';
+}
+
+// ── Completa la creazione del profilo medico + collegamento paziente.
+// Va eseguita al primo login con sessione attiva, leggendo i dati che
+// erano stati salvati nei metadata utente durante la registrazione.
+async function completePendingMedicoSetup(user) {
+  const pendingNome = user.user_metadata?.pending_medico_nome;
+  const pendingSpec = user.user_metadata?.pending_medico_spec;
+  const pendingCodice = user.user_metadata?.pending_invito_codice;
+
+  if (!pendingNome || !pendingCodice) return false; // niente da completare
+
+  // Il profilo medico potrebbe già esistere se questo setup è già girato in passato
+  const { data: existing } = await sb.from('medici').select('*').eq('user_id', user.id).single();
+  if (existing) {
+    currentMedico = existing;
+    return true;
+  }
+
+  // Crea il profilo medico
   const { data: medico, error: medErr } = await sb
     .from('medici')
-    .insert({ user_id: userId, nome, email, specializzazione: spec || null })
+    .insert({ user_id: user.id, nome: pendingNome, email: user.email, specializzazione: pendingSpec })
     .select()
     .single();
+  if (medErr) return false;
 
-  if (medErr) {
-    errEl.textContent = 'Errore nella creazione del profilo: ' + medErr.message;
-    errEl.classList.add('show');
-    btn.disabled = false; btn.textContent = 'Crea account e collegati';
-    return;
+  // Recupera e valida ancora l'invito (potrebbe essere scaduto nel frattempo)
+  const { data: invito } = await sb.from('inviti').select('*').eq('codice', pendingCodice).eq('stato', 'pending').single();
+  if (invito && new Date(invito.scadenza) >= new Date()) {
+    await sb.from('paziente_medico').insert({ paziente_id: invito.paziente_id, medico_id: medico.id, attivo: true });
+    await sb.from('inviti').update({ stato: 'usato', usato_da: user.id, usato_at: new Date().toISOString() }).eq('id', invito.id);
   }
 
-  // 4. Collega il medico al paziente che ha generato il codice
-  await sb.from('paziente_medico').insert({
-    paziente_id: invito.paziente_id,
-    medico_id: medico.id,
-    attivo: true,
-  });
+  // Pulisce i metadata pending per evitare riesecuzioni
+  await sb.auth.updateUser({ data: { pending_medico_nome: null, pending_medico_spec: null, pending_invito_codice: null } });
 
-  // 5. Marca l'invito come usato
-  await sb.from('inviti').update({
-    stato: 'usato',
-    usato_da: userId,
-    usato_at: new Date().toISOString(),
-  }).eq('id', invito.id);
-
-  okEl.textContent = 'Account creato! Accesso in corso…';
+  currentMedico = medico;
+  return true;
+}
   okEl.classList.add('show');
 
   currentMedico = medico;
@@ -1273,7 +1314,16 @@ async function applyParameterChanges(params, contestoRisposta) {
 (async function checkSession() {
   const { data: { session } } = await sb.auth.getSession();
   if (session) {
-    const { data: medico } = await sb.from('medici').select('*').eq('user_id', session.user.id).single();
+    let { data: medico } = await sb.from('medici').select('*').eq('user_id', session.user.id).single();
+
+    // Se l'utente è atterrato qui con una sessione attiva (es. dal link di
+    // conferma email) ma il profilo medico non è ancora stato creato,
+    // completiamo il setup usando i dati salvati durante la registrazione.
+    if (!medico && session.user.user_metadata?.pending_invito_codice) {
+      const ok = await completePendingMedicoSetup(session.user);
+      if (ok) medico = currentMedico;
+    }
+
     if (medico) {
       currentMedico = medico;
       await enterApp();
