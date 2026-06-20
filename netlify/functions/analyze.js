@@ -28,7 +28,35 @@ exports.handler = async function(event, context) {
         role: 'user',
         content: [
           { type: 'image', source: { type: 'base64', media_type: mediaType || 'image/jpeg', data: imageBase64 } },
-          { type: 'text', text: 'Sei un nutrizionista esperto. Analizza questo piatto. Per ogni alimento riconosci la porzione visibile e i carboidrati per 100g. Classifica ogni alimento come "dolce" (es. biscotti, frutta, succhi, cereali, dolci) o "salato" (es. pasta, pane, riso, verdure, carne, formaggi). Rispondi SOLO con JSON valido senza markdown, formato: {"alimenti":[{"nome":"nome alimento","quantita_g":150,"carbo_per_100g":30,"carbo_g":45,"categoria":"dolce|salato"}],"totale_carbo_g":45,"note":"nota opzionale"}' }
+          { type: 'text', text: `Sei un nutrizionista esperto specializzato in conteggio carboidrati per pazienti diabetici. Analizza questa foto con la massima precisione possibile.
+
+METODO DI STIMA DELLE PORZIONI:
+Prima di dare i numeri, ragiona usando riferimenti di scala visibili nella foto:
+- Un piatto piano standard ha un diametro di circa 26-28 cm
+- Un piatto fondo standard ha un diametro di circa 20-22 cm
+- Posate standard: un cucchiaio ha un manico lungo circa 18-20 cm, una forchetta circa 19-20 cm
+- Se è visibile una mano, considera che un palmo è largo circa 8-9 cm
+- Un bicchiere standard contiene circa 200-250 ml
+- Una fetta di pane standard pesa circa 25-30g
+- Una porzione di pasta cotta visibile su un piatto è tipicamente 70-100g (pasta cruda corrisponde a circa il 40% del peso cotto)
+
+Usa questi riferimenti per stimare il volume/peso reale di ogni alimento, non andare a stima generica. Se non ci sono riferimenti di scala chiari, usa le porzioni standard italiane più comuni come base.
+
+DATI RICHIESTI PER OGNI ALIMENTO:
+- Nome alimento
+- Quantità stimata in grammi (basata sui riferimenti di scala sopra)
+- Carboidrati per 100g
+- Carboidrati totali per la porzione
+- Proteine per 100g
+- Grassi per 100g
+- Fibre per 100g
+- Calorie per 100g
+- Categoria: "dolce" (biscotti, frutta, succhi, cereali, dolci) o "salato" (pasta, pane, riso, verdure, carne, formaggi)
+
+I valori nutrizionali per 100g devono riferirsi a valori standard noti per quell'alimento (tabelle nutrizionali italiane/CREA quando possibile), non stime approssimative.
+
+Rispondi SOLO con JSON valido senza markdown, in questo formato esatto:
+{"alimenti":[{"nome":"nome alimento","quantita_g":150,"carbo_per_100g":30,"carbo_g":45,"proteine_per_100g":5,"grassi_per_100g":2,"fibre_per_100g":1.5,"kcal_per_100g":140,"categoria":"dolce|salato"}],"totale_carbo_g":45,"totale_proteine_g":7.5,"totale_grassi_g":3,"totale_fibre_g":2.3,"totale_kcal":210,"note":"nota opzionale su eventuali incertezze nella stima"}` }
         ]
       }];
 
@@ -181,9 +209,10 @@ Rispondi SOLO con JSON valido senza markdown:
     }
 
     // ── Chiamata API Anthropic ───────────────────────────────────────────────
+    const isPhotoAnalysis = !!body.imageBase64;
     const payload = JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: body.analysisType === 'pattern-analysis' ? 2000 : 1000,
+      model: isPhotoAnalysis ? 'claude-sonnet-4-6' : 'claude-haiku-4-5-20251001',
+      max_tokens: body.analysisType === 'pattern-analysis' ? 2000 : (isPhotoAnalysis ? 1500 : 1000),
       messages
     });
 
