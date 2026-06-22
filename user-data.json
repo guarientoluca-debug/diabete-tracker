@@ -1801,8 +1801,8 @@
     "targetGlucose": 120,
     "isf": 50,
     "adaptiveUpdate": {
-      "updatedAt": "2026-06-15T20:20:32.077Z",
-      "campioni": 15
+      "updatedAt": "2026-06-22T19:56:06.443Z",
+      "campioni": 19
     }
   },
   "savedAt": "2026-06-18T06:04:31.792Z"
