@@ -401,6 +401,8 @@
     font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
   }
   .note-send-btn:disabled { background: #B7C3D1; }
+  .push-toggle { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-soft); margin-top: 6px; cursor: pointer; }
+  .push-toggle input { cursor: pointer; accent-color: var(--accent); }
 
   .empty-state { text-align: center; padding: 32px 16px; color: var(--ink-soft); font-size: 13px; }
 
@@ -955,8 +957,12 @@ function renderDashboard() {
         <div id="notes-block"></div>
         <div class="note-compose">
           <textarea id="note-text" placeholder="Scrivi una nota per il paziente..."></textarea>
-          <button class="note-send-btn" onclick="sendNote()">Invia</button>
+          <button class="note-send-btn" id="note-send-btn" onclick="sendNote()">Invia</button>
         </div>
+        <label class="push-toggle">
+          <input type="checkbox" id="push-check" checked>
+          🔔 Invia anche notifica push al paziente
+        </label>
       </div>
     </div>
   `;
@@ -1190,13 +1196,33 @@ async function sendNote() {
   const testo = textEl.value.trim();
   if (!testo) return;
 
+  const btn = document.getElementById('note-send-btn');
+  btn.disabled = true;
+
   await sb.from('note_mediche').insert({
     medico_id: currentMedico.id,
     paziente_id: activePatientId,
     testo,
   });
 
+  // Invia push notification se checkbox attivo
+  const pushCheck = document.getElementById('push-check');
+  if (pushCheck && pushCheck.checked) {
+    try {
+      await fetch('/.netlify/functions/send-push', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paziente_id: activePatientId,
+          titolo: '🩺 Messaggio dal tuo medico',
+          messaggio: testo.length > 80 ? testo.slice(0, 80) + '…' : testo
+        })
+      });
+    } catch(e) { console.warn('Push non inviata:', e.message); }
+  }
+
   textEl.value = '';
+  btn.disabled = false;
   loadNotes();
 }
 
@@ -1311,6 +1337,20 @@ async function applyParameterChanges(params, contestoRisposta) {
     testo: contestoRisposta || 'Parametri aggiornati dal medico tramite assistente AI.',
     parametri_modificati: params,
   });
+
+  // Invia push notification automatica al paziente
+  try {
+    const riepilogo = Object.entries(params).map(([k,v]) => `${k.replace('dose_','')} → ${v}`).join(', ');
+    await fetch('/.netlify/functions/send-push', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        paziente_id: activePatientId,
+        titolo: '🩺 Il tuo medico ha aggiornato i parametri',
+        messaggio: riepilogo
+      })
+    });
+  } catch(e) { console.warn('Push parametri non inviata:', e.message); }
 
   // Ricarica i dati per riflettere subito le modifiche
   await loadPatientData(activePatientId);
