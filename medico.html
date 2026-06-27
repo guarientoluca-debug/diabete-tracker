@@ -950,6 +950,16 @@ function renderDashboard() {
       <div class="panel">
         <div class="panel-head">
           <div>
+            <div class="panel-title">Analisi pasti: dose base vs rapporto carbo</div>
+            <div class="panel-title-sub">Confronta gli esiti dei pasti vicini al "pasto standard" del paziente con quelli più grandi/piccoli. Aiuta a capire se rivedere la dose base o il rapporto I:C.</div>
+          </div>
+        </div>
+        <div id="meal-analysis-block"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
             <div class="panel-title">Note cliniche</div>
             <div class="panel-title-sub">Visibili al paziente nell'app</div>
           </div>
@@ -993,6 +1003,7 @@ function setRange(days) {
   renderCarbsChart(meals, days);
   renderInsulinChart(insulin, days);
   renderActivityBlock(activities);
+  renderMealAnalysis(meals, readings);
 }
 
 function renderKPIs(readings) {
@@ -1164,6 +1175,146 @@ function renderActivityBlock(activities) {
     <div class="stat-mini"><span class="stat-mini-value">${totalMin}</span><span class="stat-mini-label">minuti totali</span></div>
     <div class="stat-mini"><span class="stat-mini-value">${tipoTop ? tipoTop[0] : '—'}</span><span class="stat-mini-label">attività più frequente</span></div>
   `;
+}
+
+// ── Analisi pasti: dose base vs rapporto carbo ─────────────────────────────
+// Per ogni pasto registrato cerca la glicemia 2-4h dopo (post-prandiale).
+// Classifica il pasto in 3 fasce in base allo scostamento dei carbo dal
+// carbo_riferimento del suo tipo. Aggrega TIR e media per fascia.
+//
+// Lettura clinica:
+// - fascia "standard" rispecchia la dose base prescritta (poco scostamento)
+// - fasce "piccolo"/"grande" rispecchiano come il rapporto I:C gestisce gli
+//   scostamenti dal pasto tipico.
+// Esito peggiore nello standard -> rivedere la dose base.
+// Esito peggiore solo nelle fasce di scostamento -> rivedere il rapporto.
+function renderMealAnalysis(meals, readings) {
+  const block = document.getElementById('meal-analysis-block');
+  if (!block) return;
+
+  const refCarbs = patientData.config?.carbo_riferimento || null;
+  if (!refCarbs || Object.keys(refCarbs).length === 0) {
+    block.innerHTML = '<div class="empty-state">Pasto standard (carbo_riferimento) non impostato per questo paziente. Imposta i grammi tipici per colazione/pranzo/cena per abilitare l\'analisi.</div>';
+    return;
+  }
+  if (!meals || meals.length === 0) {
+    block.innerHTML = '<div class="empty-state">Nessun pasto registrato nel periodo.</div>';
+    return;
+  }
+
+  // Aggancio post-prandiale: glicemia tra 2h e 4h dopo il pasto (la piu' vicina a 3h)
+  const sortedReadings = (readings || []).slice().sort((a,b) => new Date(a.date) - new Date(b.date));
+  function postPrandialReading(mealDate) {
+    const mt = new Date(mealDate).getTime();
+    const lo = mt + 2 * 3600 * 1000;
+    const hi = mt + 4 * 3600 * 1000;
+    let best = null, bestDist = Infinity;
+    for (const r of sortedReadings) {
+      const t = new Date(r.date).getTime();
+      if (t < lo) continue;
+      if (t > hi) break;
+      const dist = Math.abs(t - (mt + 3 * 3600 * 1000));
+      if (dist < bestDist) { best = r; bestDist = dist; }
+    }
+    return best;
+  }
+
+  // Classifica scostamento dal pasto standard in 3 fasce
+  function band(deltaPct) {
+    if (deltaPct < -25) return 'piccolo';
+    if (deltaPct > 25) return 'grande';
+    return 'standard';
+  }
+
+  // Aggrega per tipo pasto e fascia
+  const buckets = {}; // {timing: {standard: [readings], piccolo: [...], grande: [...]}}
+  let totalWithPost = 0;
+  meals.forEach(m => {
+    const timing = (m.timing || '').toLowerCase();
+    const ref = refCarbs[timing];
+    if (!ref || !m.carbs) return;
+    const post = postPrandialReading(m.date);
+    if (!post) return;
+    totalWithPost++;
+    const delta = ((m.carbs - ref) / ref) * 100;
+    const b = band(delta);
+    if (!buckets[timing]) buckets[timing] = { standard: [], piccolo: [], grande: [] };
+    buckets[timing][b].push({ carbs: m.carbs, ref, delta, glicemia: post.value });
+  });
+
+  if (totalWithPost === 0) {
+    block.innerHTML = '<div class="empty-state">Nessun pasto con glicemia post-prandiale (2-4h) trovata nel periodo. Servono letture Libre o glicemie registrate dopo il pasto.</div>';
+    return;
+  }
+
+  // TIR e media per fascia
+  function summarize(arr) {
+    if (arr.length === 0) return null;
+    const inRange = arr.filter(x => x.glicemia >= 70 && x.glicemia <= 180).length;
+    const high = arr.filter(x => x.glicemia > 180).length;
+    const low = arr.filter(x => x.glicemia < 70).length;
+    const avg = Math.round(arr.reduce((s,x) => s + x.glicemia, 0) / arr.length);
+    return { n: arr.length, tir: Math.round(inRange / arr.length * 100), high, low, avg };
+  }
+
+  const tipoLabel = { colazione: 'Colazione', pranzo: 'Pranzo', cena: 'Cena' };
+  const bandLabel = {
+    piccolo: 'Pasto piccolo (<-25%)',
+    standard: 'Pasto standard (±25%)',
+    grande: 'Pasto grande (>+25%)',
+  };
+  const bandColor = {
+    piccolo: '#8E8B83',
+    standard: '#2563A8',
+    grande: '#C8932F',
+  };
+
+  // Insight automatico: confronto TIR standard vs scostamento, aggregato su tutti i pasti
+  const allStandard = [].concat(...Object.values(buckets).map(b => b.standard));
+  const allOff = [].concat(...Object.values(buckets).map(b => [...b.piccolo, ...b.grande]));
+  const sumStd = summarize(allStandard);
+  const sumOff = summarize(allOff);
+
+  let insight = '';
+  if (sumStd && sumStd.n >= 3 && sumStd.tir < 60) {
+    insight = `<div class="pattern-item attenzione"><div class="pattern-meal">Dose base da rivedere</div><div class="pattern-text">Nei pasti standard (vicini al "pasto tipico" del paziente) il TIR post-prandiale è ${sumStd.tir}% su ${sumStd.n} pasti, con media ${sumStd.avg} mg/dL. Suggerisce di rivedere la dose base prescritta.</div></div>`;
+  } else if (sumStd && sumOff && sumStd.n >= 3 && sumOff.n >= 3 && sumStd.tir - sumOff.tir >= 20) {
+    insight = `<div class="pattern-item attenzione"><div class="pattern-meal">Rapporto I:C da rivedere</div><div class="pattern-text">I pasti standard hanno TIR ${sumStd.tir}% mentre quelli più grandi/piccoli scendono a ${sumOff.tir}%. La dose base sembra adeguata, ma il rapporto carboidrati gestisce male gli scostamenti.</div></div>`;
+  } else if (sumStd && sumStd.n >= 3 && sumStd.tir >= 70) {
+    insight = `<div class="pattern-item positivo"><div class="pattern-meal">Parametri coerenti</div><div class="pattern-text">Pasti standard con TIR ${sumStd.tir}% (${sumStd.n} pasti). Dose base e rapporto sembrano funzionare bene nel periodo.</div></div>`;
+  } else {
+    insight = `<div class="pattern-item attenzione"><div class="pattern-meal">Dati limitati</div><div class="pattern-text">Servono almeno 3 pasti standard con glicemia post-prandiale per un'indicazione affidabile. Periodo attuale: ${allStandard.length} standard, ${allOff.length} fuori standard.</div></div>`;
+  }
+
+  // Tabella per pasto x fascia
+  const tipiPresenti = Object.keys(buckets);
+  let table = '<table style="width:100%;border-collapse:collapse;margin-top:14px;font-size:0.92rem">';
+  table += '<thead><tr style="background:#F4EFE5"><th style="text-align:left;padding:8px 10px;border-bottom:1px solid #E5DFD2">Pasto</th>';
+  ['piccolo','standard','grande'].forEach(b => {
+    table += `<th style="text-align:left;padding:8px 10px;border-bottom:1px solid #E5DFD2;color:${bandColor[b]}">${bandLabel[b]}</th>`;
+  });
+  table += '</tr></thead><tbody>';
+  tipiPresenti.forEach(timing => {
+    const ref = refCarbs[timing];
+    table += `<tr><td style="padding:10px;border-bottom:1px solid #F0EBE0"><strong>${tipoLabel[timing] || timing}</strong><div style="color:#8E8B83;font-size:0.85rem">rif. ${ref}g</div></td>`;
+    ['piccolo','standard','grande'].forEach(b => {
+      const s = summarize(buckets[timing][b]);
+      if (!s) {
+        table += '<td style="padding:10px;border-bottom:1px solid #F0EBE0;color:#B5B0A4">—</td>';
+      } else {
+        const tirColor = s.tir >= 70 ? '#2D7A3E' : (s.tir >= 50 ? '#C8932F' : '#C84B31');
+        table += `<td style="padding:10px;border-bottom:1px solid #F0EBE0">
+          <div><strong style="color:${tirColor}">TIR ${s.tir}%</strong> · ${s.n} pasti</div>
+          <div style="color:#8E8B83;font-size:0.85rem">media ${s.avg} mg/dL · ${s.high} alti · ${s.low} bassi</div>
+        </td>`;
+      }
+    });
+    table += '</tr>';
+  });
+  table += '</tbody></table>';
+
+  block.innerHTML = insight + table +
+    '<div style="margin-top:12px;font-size:0.85rem;color:#8E8B83">Glicemia post-prandiale: lettura più vicina a 3h dopo il pasto (finestra 2-4h). I dati non sostituiscono il giudizio clinico.</div>';
 }
 
 // ── Note cliniche ────────────────────────────────────────────────────────
