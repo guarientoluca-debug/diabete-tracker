@@ -6,6 +6,22 @@ const { createClient } = require('@supabase/supabase-js');
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
+
+function isCEST(d) {
+  const y = d.getUTCFullYear();
+  const marchLast = new Date(Date.UTC(y, 2, 31));
+  while (marchLast.getUTCDay() !== 0) marchLast.setUTCDate(marchLast.getUTCDate() - 1);
+  marchLast.setUTCHours(1);
+  const octLast = new Date(Date.UTC(y, 9, 31));
+  while (octLast.getUTCDay() !== 0) octLast.setUTCDate(octLast.getUTCDate() - 1);
+  octLast.setUTCHours(1);
+  return d >= marchLast && d < octLast;
+}
+function toUTC(localDate) {
+  const offsetH = isCEST(localDate) ? 2 : 1;
+  return new Date(localDate.getTime() - offsetH * 3600000);
+}
+
 function sha256(str) {
   return crypto.createHash('sha256').update(str).digest('hex');
 }
