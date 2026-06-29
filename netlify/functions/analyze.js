@@ -52,11 +52,12 @@ DATI RICHIESTI PER OGNI ALIMENTO:
 - Fibre per 100g
 - Calorie per 100g
 - Categoria: "dolce" (biscotti, frutta, succhi, cereali, dolci) o "salato" (pasta, pane, riso, verdure, carne, formaggi)
+- Indice glicemico: "lento" (pasta, legumi, riso basmati, verdure, cereali integrali), "medio" (riso bianco, frutta matura, pane integrale, patate bollite), "veloce" (focaccia, pizza, pane bianco, dolci, succhi, cornetti, crackers, patate fritte, riso soffiato). Classifica in base al tipo di carboidrato e alla cottura/lavorazione.
 
 I valori nutrizionali per 100g devono riferirsi a valori standard noti per quell'alimento (tabelle nutrizionali italiane/CREA quando possibile), non stime approssimative.
 
 Rispondi SOLO con JSON valido senza markdown, in questo formato esatto:
-{"alimenti":[{"nome":"nome alimento","quantita_g":150,"carbo_per_100g":30,"carbo_g":45,"proteine_per_100g":5,"grassi_per_100g":2,"fibre_per_100g":1.5,"kcal_per_100g":140,"categoria":"dolce|salato"}],"totale_carbo_g":45,"totale_proteine_g":7.5,"totale_grassi_g":3,"totale_fibre_g":2.3,"totale_kcal":210,"note":"nota opzionale su eventuali incertezze nella stima"}` }
+{"alimenti":[{"nome":"nome alimento","quantita_g":150,"carbo_per_100g":30,"carbo_g":45,"proteine_per_100g":5,"grassi_per_100g":2,"fibre_per_100g":1.5,"kcal_per_100g":140,"categoria":"dolce|salato","indice_glicemico":"lento|medio|veloce"}],"totale_carbo_g":45,"totale_proteine_g":7.5,"totale_grassi_g":3,"totale_fibre_g":2.3,"totale_kcal":210,"note":"nota opzionale su eventuali incertezze nella stima"}` }
         ]
       }];
 
@@ -204,6 +205,47 @@ Rispondi SOLO con JSON valido senza markdown:
 }`
       }];
 
+    // ── Modalità 6: chat medico (assistente clinico per il portale medico) ──
+    } else if (body.analysisType === 'medico-chat') {
+      const { messaggio, storia, paziente } = body.data;
+
+      const datiPaziente = `
+PAZIENTE: ${paziente.nome || 'N/D'}
+Peso: ${paziente.peso || 'non registrato'} kg
+ISF attuale: ${paziente.isf || 'non calcolato'} mg/dL per unità
+Dosi prescritte: colazione ${paziente.config?.colazione || '?'}U, pranzo ${paziente.config?.pranzo || '?'}U, cena ${paziente.config?.cena || '?'}U, notte ${paziente.config?.notte || '?'}U
+
+ULTIME GLICEMIE (max 40, ultimi 14gg): ${(paziente.readings_recenti || []).map(r => `${r.value}mg/dL(${r.timing || '?'})`).join(', ') || 'nessuna'}
+
+ULTIME DOSI INSULINA (max 40, ultimi 14gg): ${(paziente.insulin_recenti || []).map(i => `${i.units}U ${i.type}`).join(', ') || 'nessuna'}
+
+ULTIMI PASTI (max 40, ultimi 14gg): ${(paziente.meals_recenti || []).map(m => `${m.carbs}g carbo (${m.timing || '?'})`).join(', ') || 'nessuno'}
+`.trim();
+
+      const storiaTesto = (storia || []).map(m => `${m.role === 'user' ? 'Medico' : 'Assistente'}: ${m.content}`).join('\n');
+
+      messages = [{
+        role: 'user',
+        content: `Sei un assistente clinico AI all'interno di un portale per diabetologi. Parli con un MEDICO (non con il paziente), in italiano professionale e diretto. Il medico sta consultando i dati di un suo paziente diabetico e può chiederti analisi oppure darti istruzioni dirette per aggiornare i parametri di terapia (ISF, dosi prescritte).
+
+${datiPaziente}
+
+${storiaTesto ? 'CONVERSAZIONE PRECEDENTE:\n' + storiaTesto + '\n' : ''}
+
+MESSAGGIO DEL MEDICO:
+${messaggio}
+
+ISTRUZIONI:
+- Se il medico chiede un'analisi (es. "come sta andando questo paziente?"), rispondi con un'osservazione clinica concisa basata sui dati forniti.
+- Se il medico dà un'istruzione esplicita per modificare un parametro (es. "abbassa l'ISF a 45", "porta la dose di pranzo a 8 unità", "aumenta la dose serale di 2 unità"), CALCOLA il nuovo valore esatto e restituiscilo nel campo parametri_da_aggiornare. Usa SOLO queste chiavi quando applicabile: isf, dose_colazione, dose_pranzo, dose_cena, dose_notte.
+- Se il messaggio è ambiguo o ti manca un dato per applicare la modifica con sicurezza, NON modificare nulla: chiedi chiarimento nella risposta testuale e lascia parametri_da_aggiornare vuoto.
+- Non modificare mai più di quanto richiesto esplicitamente o chiaramente implicato dal medico.
+- Sii sintetico: 2-4 frasi per le analisi, 1-2 frasi per confermare una modifica applicata.
+
+Rispondi SOLO con JSON valido senza markdown, formato:
+{"risposta": "testo della risposta per il medico", "parametri_da_aggiornare": {}}`
+      }];
+
     } else {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'Parametri mancanti: imageBase64 o analysisType richiesto' }) };
     }
@@ -212,7 +254,7 @@ Rispondi SOLO con JSON valido senza markdown:
     const isPhotoAnalysis = !!body.imageBase64;
     const payload = JSON.stringify({
       model: isPhotoAnalysis ? 'claude-sonnet-4-6' : 'claude-haiku-4-5-20251001',
-      max_tokens: body.analysisType === 'pattern-analysis' ? 2000 : (isPhotoAnalysis ? 1500 : 1000),
+      max_tokens: body.analysisType === 'pattern-analysis' ? 2000 : (isPhotoAnalysis ? 1500 : (body.analysisType === 'medico-chat' ? 1200 : 1000)),
       messages
     });
 
